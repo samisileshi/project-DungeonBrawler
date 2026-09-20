@@ -21,11 +21,11 @@ in - the rest of this file is one row per member, per milestone, against their s
 
 | Student | Slice (the feature they own) |
 |---------|------------------------------|
-| <Wilson Huang>  | <Filled slices for CONTRIBUTIONS.md>                    |
-| <Youssouf>  | <feature>                    |
-| <Sami>  | <Added PROPOSAL.md and added Modified Tech Plan to it>                    |
-| <Ibrahim>  | <Filled out README.md and PROPOSAL.md>                    |
-| <Obayd>  | <feature>                    |
+| Wilson Huang  | Filled slices for CONTRIBUTIONS.md                    |
+| Youssouf  | <feature>                    |
+| Sami  | Added PROPOSAL.md and added Modified Tech Plan to it                    |
+| Ibrahim  | Filled out README.md and PROPOSAL.md                    |
+| Obayd  | <feature>                    |
 
 <!-- Teams of four: delete the fifth row, here and in the tables below. -->
 
