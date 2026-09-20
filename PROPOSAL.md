@@ -1,4 +1,4 @@
-# Project Proposal - <team name>
+# Project Proposal - Dungeon Brawler
 
 Copy this file into your **group** repository as `PROPOSAL.md`, then fill it in together.
 
