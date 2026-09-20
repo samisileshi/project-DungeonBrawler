@@ -1,4 +1,4 @@
-# Project Proposal - <team name>
+# Project Proposal - Dungeon Brawler
 
 Copy this file into your **group** repository as `PROPOSAL.md`, then fill it in together.
 
@@ -12,8 +12,7 @@ Copy this file into your **group** repository as `PROPOSAL.md`, then fill it in 
 
 ## The application
 
-<One or two sentences: what are you building? It should fit the networked multi-user
-theme - see project/overview.md. Name a suggested project or describe your own idea.>
+We're creating a 2-player, local or online turn-based dungeon crawler. Players will compete to collect loot, level up, and raise their score to increase the chances of finding an Escape Sigil before their opponent, or before the timer runs out.
 
 ## First feature breakdown (one slice per member)
 

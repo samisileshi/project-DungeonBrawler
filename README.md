@@ -1,10 +1,8 @@
-# <your project name>
+# Dungeon Brawler
 
 ## The application
 
-<Two or three sentences: what are you building, and who plays or uses it? It has to fit the
-networked, multi-user theme - see the "Suggested projects" section of
-[`MILESTONES.md`](MILESTONES.md). Name one of the suggestions, or describe your own idea.>
+We're creating a 2-player, local or online turn-based dungeon crawler. Players will compete to collect loot, level up, and raise their score to increase the chances of finding an Escape Sigil before their opponent, or before the timer runs out.
 
 ## The team
 
