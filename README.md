@@ -10,7 +10,7 @@ We're creating a 2-player, local or online turn-based dungeon crawler. Players w
 |-------------------------|-----------------------|
 |Samuel Sileshi Nemomissa | @samisileshi          |
 |Youssouf Tive Madi       | @youss1234            |
-|Ibrahim Mian             | @IbrahimMain08        |
+|Ibrahim Waqar Mian       | @IbrahimMain08        |
 |Wilson Huang             | @wilsonhuangyh-gif    |
 |Obaidullah Ahmad         | @obaidullahahmad-maker|
 
