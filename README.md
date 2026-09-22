@@ -6,12 +6,13 @@ We're creating a 2-player, local or online turn-based dungeon crawler. Players w
 
 ## The team
 
-| Full name               | GitHub username   |
-|-------------------------|-------------------|
-|Samuel Sileshi Nemomissa | @samisileshi      |
-|Youssouf Tive Madi       | @youss1234        |
-|Ibrahim Mian             | @IbrahimMain08    |
-|Wilson Huang             | @wilsonhuangyh-gif|
+| Full name               | GitHub username       |
+|-------------------------|-----------------------|
+|Samuel Sileshi Nemomissa | @samisileshi          |
+|Youssouf Tive Madi       | @youss1234            |
+|Ibrahim Mian             | @IbrahimMain08        |
+|Wilson Huang             | @wilsonhuangyh-gif    |
+|Obaidullah Ahmad         | @obaidullahahmad-maker|
 
 
 Note:  Be sure to [add all of the group members to as collaborators on this repository](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/inviting-collaborators-to-a-personal-repository).
