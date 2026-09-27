@@ -21,11 +21,11 @@ in - the rest of this file is one row per member, per milestone, against their s
 
 | Student | Slice (the feature they own) |
 |---------|------------------------------|
-| Wilson  | Filled slices for CONTRIBUTIONS.md|
-| Youssouf| Added names and usernames in the Team Table in README.md and in PROPOSAL.md|
-| Sami    | Added PROPOSAL.md and added Modified Tech Plan to it|
-| Ibrahim | Dungeon Gen and RNG          |
-| Obayd   | <feature>                    |
+| Wilson  | F3 Player Movement, Inspection and Selection, F8 Player Stats and Progression Data, F13 Items Inventory and Equipment, F14 Coins Shop and Economy|
+| Youssouf| F5 Door Completion and Failure System , F6 Turn and Round Logic, F16 Chests and Contested Objects, Renown, F17 Escape Sigils and Escape Doors|
+| Sami    | F9 Core Combat System, F10 Parry System, F11 Enemies and Elite Enemies, F12 Boss System|
+| Ibrahim | F1 Dungeon Grid and Positions, F2 Round Board Generation and RNG, F4 Door Information and Door Generation, F7 Timers and Pause Logic          |
+| Obayd   | F15 Special Dungeon Events, F18 Death and Revival Momentum, F19 Minigame System, F20 Difficulty and Victory System                    |
 
 <!-- Teams of four: delete the fifth row, here and in the tables below. -->
 
