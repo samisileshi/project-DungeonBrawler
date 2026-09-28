@@ -7,7 +7,7 @@ Copy this file into your **group** repository as `PROPOSAL.md`, then fill it in 
 - Samuel Sileshi Nemomissa + @samisileshi
 - Youssouf Tive Madi + @youss1234
 - Ibrahim Mian + @IbrahimMain08
-- Wilson Huang + @wilsonhuangyh-gif
+- Wilson Huang + @Willyfrys
 - Obaidullah Ahmad + @obaidullahahmad-maker
 
 ## The application
