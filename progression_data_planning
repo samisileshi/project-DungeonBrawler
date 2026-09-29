@@ -1,0 +1,18 @@
+Progression data tracking
+
+1. Overview and Purpose
+This sub feature acts as the for the run milestones and events across the runs.
+
+2. What does it do?
+* Maintains individual counters for game progress
+* Add metrics for winning events 
+* Evaluates revive conditions
+
+3. Data needed
+* Progression counters: doors_completed(int), enemies_defeated(int), bosses_defeated(int), minigames_won(int)
+* Life: Revivals(int)
+
+4. Logic and Control Flow
+* Initialize counters and set the milestone counters 
+* Increment winning events
+* Process defeat/revival of players
