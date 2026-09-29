@@ -19,7 +19,7 @@ def selection_and_commits(player_name, player_pos,board):
     choice = input()
 
     if choice == '1':
-        if tile_data.get('door') != None: # If there is no door, return.
+        if tile_data.get('door') is None: # If there is no door, return.
             print("There is no door to open.")
             return
 
@@ -58,4 +58,17 @@ def selection_and_commits(player_name, player_pos,board):
     else: 
         print("\nInvalid Selection.")
 
-    
+if __name__ == "__main__":
+    demo_board = {
+        (0, 0): {'door': None, 'item': 'Gold Coin'},
+        (0, 1): {'door': 'Wooden Door', 'item': None},
+        (1, 1): {'door': None, 'item': None}
+    }
+
+    print("--- DEMO 1: Interacting with an Item ---")
+    selection_and_commits("Player 1", (0, 0), demo_board)
+
+    print("\nBoard state at (0, 0) after pick up:", demo_board[(0, 0)])
+
+    print("\n--- DEMO 2: Interacting with an Empty Tile ---")
+    selection_and_commits("Player 1", (1, 1), demo_board)
