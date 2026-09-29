@@ -58,7 +58,7 @@ Worked example:
 | Student | Planning | Control flow | Collections | Functions |
 |---------|----------|--------------|-------------|-----------|
 | Samuel S| bd05cb1  | bd05cb1      |  bd05cb1    | bd05cb1   |
-| <name>  |          |              |             |           |
+| Wilson H| cc3de54  | d769bd7      |  d769bd7    | d769bd7   |
 | <name>  |          |              |             |           |
 | <name>  |          |              |             |           |
 | <name>  |          |              |             |           |
