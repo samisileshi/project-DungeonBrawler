@@ -55,13 +55,13 @@ Worked example:
 
 ## Milestone 1 - Core Prototype (Units 01-02)
 
-| Student | Planning | Control flow | Collections | Functions |
-|---------|----------|--------------|-------------|-----------|
-| Samuel S| bd05cb1  | bd05cb1      |  bd05cb1    | bd05cb1   |
-| Wilson H| cc3de54  | d769bd7      |  d769bd7    | d769bd7   |
-| <name>  |          |              |             |           |
-| <name>  |          |              |             |           |
-| <name>  |          |              |             |           |
+| Student    | Planning | Control flow | Collections | Functions |
+|------------|----------|--------------|-------------|-----------|
+| Samuel S   | bd05cb1  | bd05cb1      |  bd05cb1    | bd05cb1   |
+| Wilson H   | cc3de54  | d769bd7      |  d769bd7    | d769bd7   |
+| Youssouf TM| 1e61b7d  | 1e61b7d      |  1e61b7d    | 1e61b7d   |
+| <name>     |          |              |             |           |
+| <name>     |          |              |             |           |
 
 <!-- Optional but recommended: a line per member saying which function or file to look at. -->
 Samuel S - Look at combat.py for the combat function. And main.py at main() for calling function.
