@@ -57,13 +57,14 @@ Worked example:
 
 | Student | Planning | Control flow | Collections | Functions |
 |---------|----------|--------------|-------------|-----------|
-| <name>  |          |              |             |           |
+| Samuel S| bd05cb1  | bd05cb1      |  bd05cb1    | bd05cb1   |
 | <name>  |          |              |             |           |
 | <name>  |          |              |             |           |
 | <name>  |          |              |             |           |
 | <name>  |          |              |             |           |
 
 <!-- Optional but recommended: a line per member saying which function or file to look at. -->
+Samuel S - Look at combat.py for the combat function. And main.py at main() for calling function.
 
 ## Milestone 2 - Practical Application (Unit 03)
 
