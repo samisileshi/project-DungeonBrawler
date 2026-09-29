@@ -1,0 +1,20 @@
+Player stats Spec and Decomposition 
+
+1. Overview and Purpose
+This sub feature owns, the players name, Hp, Max Hp, Attack, Defense, Resources, Coins, Renown/Fame, Escape Sigils, Inventory, Equipment,
+Buffs, Debuffs, Doors completed, Enemies Defeated, Bosses Defeated, Minigames Won, Revivals.
+
+2. What does it do?
+* Creates combat attributes and status effects at the start of a run.
+* Proccess player health from damage, healing or item usage.
+* Manages inventory additions, equipped gear and active buffs.
+
+3. Data Needed
+* Attributes and Resources: username(string), hp(int), max_hp(int), attack(int), defense(int), focus(int)
+* Currencies: coins(int), renown/fame(int), escape_sigils(int)
+* Grouped Variables: inventory(list), equipment(dictionary), buffs(list)
+
+4. Logic and Control Flow
+* Initialize information: Set base information for stats, currency, inventory and buffs.
+* Stat Adjustments: Modify and changes to stats or resources.
+* Update gear and Buffs: Equip/Unequip items and change active status effects
