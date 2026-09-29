@@ -1,0 +1,20 @@
+Special Dungeon Events Spec and Decomposition
+
+1. Overview and Purpose
+Each square has random consequence that affect the player.
+
+2. What does it do?
+Mine: Player loses 1 health
+Medkit: Player gains one health
+Fog: Nothing changes
+
+3. Data Needed
+From the palyer dictionary: hp(int), max_hp(int)
+A list of consequesnce names: ["medkit", "mine", "fog"]
+
+4. Logic and Control Flow
+
+Pick a random consequence from the list
+use if/elif to check which consequence it is
+chage the player's health or do nothing if it is fog
+print what happened.d
