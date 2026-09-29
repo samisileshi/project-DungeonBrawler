@@ -22,9 +22,12 @@ def apply_surprises(player, pick):
 
 # Demo
 if __name__ == "__main__":
-
     player = {"hp": 80, "max_hp": 100, "attack": 15}
 
-    pick = random.choice(surprises)
-    apply_surprises(player, pick)
-    print(player)
+    while player["hp"] > 0:
+        input("Press Enter to step on the next square...")
+
+        pick = random.choice(surprises)
+        apply_surprises(player, pick)
+        print(player)
+    print("You died!")
