@@ -25,7 +25,7 @@ in - the rest of this file is one row per member, per milestone, against their s
 | Youssouf| F5 Door Completion and Failure System , F6 Turn and Round Logic, F16 Chests and Contested Objects, Renown, F17 Escape Sigils and Escape Doors|
 | Sami    | F9 Core Combat System, F10 Parry System, F11 Enemies and Elite Enemies, F12 Boss System|
 | Ibrahim | F1 Dungeon Grid and Positions, F2 Round Board Generation and RNG, F4 Door Information and Door Generation, F7 Timers and Pause Logic          |
-| Obayd   | F15 Special Dungeon Events, F18 Death and Revival Momentum, F19 Minigame System, F20 Difficulty and Victory System                    |
+| Obaidullah Ahmad   | F15 Special Dungeon Events, F18 Death and Revival Momentum, F19 Minigame System, F20 Difficulty and Victory System                    |
 
 <!-- Teams of four: delete the fifth row, here and in the tables below. -->
 
@@ -60,7 +60,7 @@ Worked example:
 | Samuel S   | bd05cb1  | bd05cb1      |  bd05cb1    | bd05cb1   |
 | Wilson H   | cc3de54  | d769bd7      |  d769bd7    | d769bd7   |
 | Youssouf TM| 1e61b7d  | 1e61b7d      |  1e61b7d    | 1e61b7d   |
-| Obaidullah A| b2f1fb8  | 3c0b4e6      |  0dee83d    | 0dee83d   |
+| Obaidullah Ahmad| b2f1fb8  | 0dee83d      |  0dee83d    | 0dee83d   |
 | <name>     |          |              |             |           |
 
 <!-- Optional but recommended: a line per member saying which function or file to look at. -->

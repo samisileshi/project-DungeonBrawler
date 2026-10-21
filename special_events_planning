@@ -4,8 +4,8 @@ Special Dungeon Events Spec and Decomposition
 Each square has random consequence that affect the player.
 
 2. What does it do?
-Mine: Player loses 1 health
-Medkit: Player gains one health
+Mine: Player loses 10 health
+Medkit: Player gains 10 health
 Fog: Nothing changes
 
 3. Data Needed
