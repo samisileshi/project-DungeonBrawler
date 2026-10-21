@@ -60,7 +60,7 @@ Worked example:
 | Samuel S   | bd05cb1  | bd05cb1      |  bd05cb1    | bd05cb1   |
 | Wilson H   | cc3de54  | d769bd7      |  d769bd7    | d769bd7   |
 | Youssouf TM| 1e61b7d  | 1e61b7d      |  1e61b7d    | 1e61b7d   |
-| <name>     |          |              |             |           |
+| Obaidullah A| b2f1fb8  | 3c0b4e6      |  0dee83d    | 0dee83d   |
 | <name>     |          |              |             |           |
 
 <!-- Optional but recommended: a line per member saying which function or file to look at. -->
