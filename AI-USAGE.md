@@ -71,7 +71,7 @@ changed and how you tested it.
 
 | Student | AI tool(s) used | Used it for |
 |---------|-----------------|-------------|
-| <name>  |                 |             |
+| Obaidullah Ahmad  |  Gemni               | explaining what to do    in various steps         |
 | <name>  |                 |             |
 | <name>  |                 |             |
 | <name>  |                 |             |
