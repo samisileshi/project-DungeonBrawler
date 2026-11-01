@@ -24,5 +24,21 @@ def access_chest(self, player):
     player.buffs.append(self.buff)
     return f"Chest claimed by {self.opened}"
 
+def to_dict(self):
+    return {
+        "loot": self.loot,
+        "buff": self.buff,
+        "opened": self.opened,
+        "opened_by": self.opened_by
+    }
 
+@classmethod
+
+def from_dict(cls, data):
+    chest = cls()
+    chest.loot = data["loot"]
+    chest.buff = data["buff"]
+    chest.opened = data["opened"]
+    chest.opened_by = data["opened_by"]
+    return chest
 
