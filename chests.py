@@ -12,33 +12,31 @@ class Chest:
         self.opened = False
         self.opened_by = None
 
+    def access_chest(self, player):
+        if self.opened:
+            return f"{self.opened_by} already opened the chest"
 
+        self.opened = True
+        self.opened_by = player.name
+        player.inventory.append(self.loot)
+        player.buffs.append(self.buff)
+        return f"Chest claimed by {self.opened}"
 
-def access_chest(self, player):
-    if self.opened:
-        return f"{self.opened_by} already opened the chest"
+    def to_dict(self):
+        return {
+            "loot": self.loot,
+            "buff": self.buff,
+            "opened": self.opened,
+            "opened_by": self.opened_by
+        }
 
-    self.opened = True
-    self.opened_by = player.name
-    player.inventory.append(self.loot)
-    player.buffs.append(self.buff)
-    return f"Chest claimed by {self.opened}"
+    @classmethod
 
-def to_dict(self):
-    return {
-        "loot": self.loot,
-        "buff": self.buff,
-        "opened": self.opened,
-        "opened_by": self.opened_by
-    }
-
-@classmethod
-
-def from_dict(cls, data):
-    chest = cls()
-    chest.loot = data["loot"]
-    chest.buff = data["buff"]
-    chest.opened = data["opened"]
-    chest.opened_by = data["opened_by"]
-    return chest
+    def from_dict(cls, data):
+        chest = cls()
+        chest.loot = data["loot"]
+        chest.buff = data["buff"]
+        chest.opened = data["opened"]
+        chest.opened_by = data["opened_by"]
+        return chest
 
