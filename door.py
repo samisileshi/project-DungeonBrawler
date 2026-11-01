@@ -26,22 +26,22 @@ def resolve(self, player, success: bool):
     #checks if the current player successfully completed the door.
     if success:
         self.completed = True 
-        self.completed_by = player["name"] 
+        self.completed_by = player.name 
 
         #checks that the reward has not already been given.
         if self.reward_given is False:
-            player["score"] += self.score_reward  #givee the player score.
+            player.score += self.score_reward  #givee the player score.
             self.reward_given = True  
 
         #count as completed door.
-        player["doors_completed"] += 1 
+        player.doors_completed += 1 
 
         # Tell the rest of the program that the door succeeded.
         return "Door completed"
 
     #record the player's failed attempt.
-    if player["name"] not in self.failed_by:
-        self.failed_by.append(player["name"])  
+    if player.name not in self.failed_by:
+        self.failed_by.append(player.name)  
 
     #the door stays available after failure.
     return "Door failed"
