@@ -18,63 +18,63 @@ class door:
 
 #This method is the old resolve_door method but changed to fit the door class
 
-def resolve(self, player, success: bool):
-    #checks if another player already completed this door.
-    if self.completed:
-        return "Door already completed."
+    def resolve(self, player, success: bool):
+        #checks if another player already completed this door.
+        if self.completed:
+            return "Door already completed."
 
-    #checks if the current player successfully completed the door.
-    if success:
-        self.completed = True 
-        self.completed_by = player.name 
+        #checks if the current player successfully completed the door.
+        if success:
+            self.completed = True 
+            self.completed_by = player.name 
 
-        #checks that the reward has not already been given.
-        if self.reward_given is False:
-            player.score += self.score_reward  #givee the player score.
-            self.reward_given = True  
+            #checks that the reward has not already been given.
+            if self.reward_given is False:
+                player.score += self.score_reward  #givee the player score.
+                self.reward_given = True  
 
-        #count as completed door.
-        player.doors_completed += 1 
+            #count as completed door.
+            player.doors_completed += 1 
 
-        # Tell the rest of the program that the door succeeded.
-        return "Door completed"
+            # Tell the rest of the program that the door succeeded.
+            return "Door completed"
 
-    #record the player's failed attempt.
-    if player.name not in self.failed_by:
-        self.failed_by.append(player.name)  
+        #record the player's failed attempt.
+        if player.name not in self.failed_by:
+            self.failed_by.append(player.name)  
 
-    #the door stays available after failure.
-    return "Door failed"
+        #the door stays available after failure.
+        return "Door failed"
 
 
-def can_attempt_door(self):
-    #checks if the door was already completed.
-    if self.completed:
-        return False 
-    
-    return True 
+    def can_attempt_door(self):
+        #checks if the door was already completed.
+        if self.completed:
+            return False 
+        
+        return True 
 
-def to_dict(self):
-    #converts the door into a dictionary for JSON
-    return {
-        "name": self.name,
-        "type": self.type,
-        "score_reward": self.score_reward,
-        "completed": self.completed,
-        "completed_by": self.completed_by,
-        "failed_by": self.failed_by,
-        "reward_given": self.reward_given
-    }
+    def to_dict(self):
+        #converts the door into a dictionary for JSON
+        return {
+            "name": self.name,
+            "type": self.type,
+            "score_reward": self.score_reward,
+            "completed": self.completed,
+            "completed_by": self.completed_by,
+            "failed_by": self.failed_by,
+            "reward_given": self.reward_given
+        }
 
-@classmethod
+    @classmethod
 
-def from_dict(cls, data):
-    #recreates a door from saved dictionary data.
-    door = cls(data["name"], data["type"], data["score_reward"])
-    
-    #restores its previous state.
-    door.completed = data["completed"]
-    door.completed_by = data["completed_by"]
-    door.failed_by = data["failed_by"]
-    door.reward_given = data["reward_given"]
-    return door
+    def from_dict(cls, data):
+        #recreates a door from saved dictionary data.
+        door = cls(data["name"], data["type"], data["score_reward"])
+        
+        #restores its previous state.
+        door.completed = data["completed"]
+        door.completed_by = data["completed_by"]
+        door.failed_by = data["failed_by"]
+        door.reward_given = data["reward_given"]
+        return door
