@@ -2,40 +2,24 @@
 
 import random
 
-chest_loot = ["Health Potion", "Iron Sword"]
+#The chest class using pieces from the old make_chest method
+class Chest:
+    def __init__(self):
+        self.chest_loot = ["Health Potion", "Iron Sword"]
+        self.loot = random.choice(self.chest_loot)
+        self.buffs = ["+10 damage buff", "+10 health buff", "+10 shield buff"]
+        self.buff = random.choice(self.buffs)
+        self.opened = False
+        self.opened_by = None
 
 
-def make_chest():
-    #returns a chest dictionary.
-    return {
-        "loot": random.choice(chest_loot),  
-        "buff": "+10 damage buff",
-        "opened": False,  
-        "opened_by": None,  
-    }
 
-def access_chest(player, chest):
-    #checks if someone already accessed the chest
-    if chest["opened"]:
-        return "Chest already claimed."  # Prevent the second player from getting it
+def access_chest(self, player):
+    if self.opened:
+        return f"{self.opened_by} already opened the chest"
 
-    #marks the chest as opened
-    chest["opened"] = True  # First access claims the chest
-
-    #which player accessed it first
-    chest["opened_by"] = player["name"]
-
-    #gives the player the randomly selected loot
-    player["inventory"].append(chest["loot"])
-
-    #gives the player the chest buff
-    player["buffs"].append(chest["buff"])
-
-    #returns what the player received
-    return "Chest claimed: " + chest["loot"] + " + " + chest["buff"]
-
-
-#test makes chest
-chest = make_chest()
-
-print("Chest loot:", chest["loot"])
+    self.opened = True
+    self.opened_by = player.name
+    player.inventory.append(self.loot)
+    player.buffs.append(self.buff)
+    return f"Chest claimed by {self.opened}"
