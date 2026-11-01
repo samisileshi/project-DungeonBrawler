@@ -2,7 +2,7 @@
 
 import random
 
-#The chest class using pieces from the old make_chest method
+#The chest class using pieces from the old make_chest metho
 class Chest:
     def __init__(self):
         self.chest_loot = ["Health Potion", "Iron Sword"]
@@ -23,3 +23,6 @@ def access_chest(self, player):
     player.inventory.append(self.loot)
     player.buffs.append(self.buff)
     return f"Chest claimed by {self.opened}"
+
+
+
