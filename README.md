@@ -41,6 +41,7 @@ implemented - what it does, its complexity, and why that is fast enough here.>
 | [`MILESTONES.md`](MILESTONES.md) | **the project requirements** - all four milestones, what's due when |
 | [`CONTRIBUTIONS.md`](CONTRIBUTIONS.md) | who owns which slice, and which commit proves each member did each topic |
 | [`AI-USAGE.md`](AI-USAGE.md) | the AI policy, and your team's disclosure |
+| [Team planning doc](https://docs.google.com/document/d/18wfBg2EickYXuJv-wgNtfbcqCjU2-CmAEXHq6eLfEoc/edit) | full game design and the feature claim list for each milestone (Google Doc) |
 
 > **This file is yours.** The sections above are part of your Milestone 0 write-up - fill
 > them in together, and fill in the slices table in `CONTRIBUTIONS.md` at the same time.
