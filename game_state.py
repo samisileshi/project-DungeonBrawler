@@ -10,12 +10,15 @@ class GameState:
         self.round = 1
         self.game_over = False
 
-#this method goes to the next round
-def next_round(self):
-    self.round += 1
+    #this method goes to the next round
+    def next_round(self):
+        self.round += 1
 
-#checks if the game is over
-def is_game_over(self):
-    return self.game_over
+    #checks if the game is over
+    def is_game_over(self):
+        return self.game_over
+
+    
+
 
 
