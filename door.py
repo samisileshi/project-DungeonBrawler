@@ -54,3 +54,27 @@ def can_attempt_door(self):
     
     return True 
 
+def to_dict(self):
+    #converts the door into a dictionary for JSON
+    return {
+        "name": self.name,
+        "type": self.type,
+        "score_reward": self.score_reward,
+        "completed": self.completed,
+        "completed_by": self.completed_by,
+        "failed_by": self.failed_by,
+        "reward_given": self.reward_given
+    }
+
+@classmethod
+
+def from_dict(cls, data):
+    #recreates a door from saved dictionary data.
+    door = cls(data["name"], data["type"], data["score_reward"])
+    
+    #restores its previous state.
+    door.completed = data["completed"]
+    door.completed_by = data["completed_by"]
+    door.failed_by = data["failed_by"]
+    door.reward_given = data["reward_given"]
+    return door
