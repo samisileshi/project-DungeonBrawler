@@ -1,7 +1,7 @@
 # author: Obaidullah Ahmad
 import random
 import json
-surprises = ["mine", "medkit", "fog"]
+surprises = ["mine", "medkit", "fog", "chain mine"]
 
 
 class SurpriseDeck:
@@ -24,6 +24,14 @@ class SurpriseDeck:
             data = json.load(f)
         self.history = data["history"]
 
+    def chain_mine(self, player, depth):
+        if depth == 0:
+            return
+        player["hp"] = player["hp"] - 5
+        print("Chain mine! HP -5")
+        if random.random() < 0.5:
+            self.chain_mine(player, depth - 1)
+
     def apply_surprises(self, player, pick):
         self.history.append(pick)
         if pick == "mine":
@@ -39,6 +47,8 @@ class SurpriseDeck:
                 print("Medkit. HP Maxed")
         elif pick == "fog":
             print("Fog. nothing happens")
+        elif pick == "chain mine":
+            self.chain_mine(player, 3)
         return player
 
 
