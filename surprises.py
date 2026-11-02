@@ -1,6 +1,7 @@
 # author: Obaidullah Ahmad
 import random
 import json
+import argparse
 surprises = ["mine", "medkit", "fog", "chain mine"]
 
 
@@ -54,10 +55,13 @@ class SurpriseDeck:
 
 # Demo
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--save-file", default="surprises_save.json")
+    args = parser.parse_args()
     player = {"hp": 80, "max_hp": 100, "attack": 15}
     deck = SurpriseDeck()
     try:
-        deck.load("surprises_save.json")
+        deck.load(args.save_file)
     except FileNotFoundError:
         print("No save yet, starting fresh.")
     print("Surprises so far:", len(deck.history))
@@ -68,4 +72,4 @@ if __name__ == "__main__":
         deck.apply_surprises(player, pick)
         print(player)
     print("You died!")
-    deck.save("surprises_save.json")
+    deck.save(args.save_file)
