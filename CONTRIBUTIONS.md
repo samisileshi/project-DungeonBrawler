@@ -70,7 +70,7 @@ Samuel S - Look at combat.py for the combat function. And main.py at main() for 
 
 | Student | OOP | File I/O | Recursion | Command-line args | Interface (TUI/GUI) |
 |---------|-----|----------|-----------|-------------------|---------------------|
-| <name>  |     |          |           |                   |                     |
+| Obaidullah Ahmad | 5c92807 | 12f4e86 | f348695 | 8862c48 | f81309f |
 | <name>  |     |          |           |                   |                     |
 | <name>  |     |          |           |                   |                     |
 | <name>  |     |          |           |                   |                     |

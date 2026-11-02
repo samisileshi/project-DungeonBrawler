@@ -81,7 +81,7 @@ changed and how you tested it.
 
 | Student | AI tool(s) used | Used it for |
 |---------|-----------------|-------------|
-| <name>  |                 |             |
+| Obaidullah Ahmad | Claude (Claude Code) | Step-by-step guidance for my F15 slice in surprises.py. It explained classes, json save/load, try/except, recursion, argparse and the menu loop. For several parts it gave me the exact lines, which I typed myself; it also checked my code for errors. |
 | <name>  |                 |             |
 | <name>  |                 |             |
 | <name>  |                 |             |
