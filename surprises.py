@@ -1,5 +1,6 @@
 # author: Obaidullah Ahmad
 import random
+import json
 surprises = ["mine", "medkit", "fog"]
 
 
@@ -10,6 +11,18 @@ class SurpriseDeck:
 
     def pick(self):
         return random.choice(self.events)
+
+    def to_dict(self):
+        return {"history": self.history}
+
+    def save(self, filename):
+        with open(filename, "w") as f:
+            json.dump(self.to_dict(), f)
+
+    def load(self, filename):
+        with open(filename, "r") as f:
+            data = json.load(f)
+        self.history = data["history"]
 
     def apply_surprises(self, player, pick):
         self.history.append(pick)
@@ -33,7 +46,11 @@ class SurpriseDeck:
 if __name__ == "__main__":
     player = {"hp": 80, "max_hp": 100, "attack": 15}
     deck = SurpriseDeck()
-
+    try:
+        deck.load("surprises_save.json")
+    except FileNotFoundError:
+        print("No save yet, starting fresh.")
+    print("Surprises so far:", len(deck.history))
     while player["hp"] > 0:
         input("Press Enter to step on the next square...")
 
@@ -41,3 +58,4 @@ if __name__ == "__main__":
         deck.apply_surprises(player, pick)
         print(player)
     print("You died!")
+    deck.save("surprises_save.json")
