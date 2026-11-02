@@ -1,69 +1,50 @@
 # Written by Wilson Huang
-def player_stats(data: dict, action:str , value=None) :
+class Player:
+    def __init__(self,username='Player'):
+        self.username = username
+        self.hp = 100
+        self.maxhp = 100
+        self.attack = 15
+        self.defense = 5
+        self.focus = 50
+        self.coins = 0
+        self.renown = 0 
+        self.escape_sigils = 0
+        self.inventory = []
+        self.equipment = {'weapon':None,'armor':None}
+        self.buffs = []
+        self.debuffs = []
+        self.doors_completed = 0
+        self.bosses_defeated = 0
+        self.minigames_won = 0
+        self.revivals = 1
 
-    if len(data) == 0: # If the data dictionary is empty, generate the player stats, if not done like this everytime the function is called, the player stats get reset
-        data = { 
-            "username":"Hero",
-            "hp":100,
-            "max_hp":100,
-            "attack":15,
-            "defense":5,
-            "focus":50,
-            "coins":0,
-            "renown":0,
-            "escape_sigil":0,
-            "inventory":[],
-            "equipment":{"weapon":None,"armor":None},
-            "buffs":[],
-            "debuffs":[],
-            "doors_completed":0,
-            "enemies_defeated":0,
-            "bosses_defeated":0,
-            "minigames_won":0,
-            "revivals":1
-        }
+        def modify_hp(self,amount):
+            self.hp = max(0,min(self.max_hp, self.hp + amount)) #Caps the hp at max_hp and prevents it from dropping below 0
+            
+        def modify_focus(self,amount):
+            self.focus = max(0,self.focus + amount) #Update focus and prevent it from dropping below 0
 
-    # If 
-    if action == "modify_hp":
-        # Update the hp, min() caps health at max_hp, max() prevents dropping below 0.
-        data['hp'] = max(0, min(data['max_hp'], data['hp'] + value)) 
+        def equip_item(self,slot,item): 
+            if slot in self.equipment: #Only equip if the slot is open
+                self.equipment[slot] = item
 
-    elif action == "modify_focus":
-        # Update the focus, and prevent it from dropping below 0 
-        data['focus'] = max(0, data['focus'] + value)
-
-    elif action == "equip_item":
-        # Checks if the slot is open 
-        slot,item_name = value
-        if slot in data['equipment']:
-            data['equipment'][slot] = item_name
-    elif action == 'increment_stat':
-        if value in data and value != 'revivals':
-            data[value] += 1
-
-    elif action == 'check_revival':
-        if data ['hp'] == 0 and data['revivals'] > 0:
-            data['revivals'] -= 1
-            data['hp'] = data['max_hp']
-            data['revived_last_check'] = True
-        else:
-            data['revived_last_check'] = False
-    return data
-
-
-
-player = player_stats({}, "init")
-print(f"Start HP: {player['hp']}")  # 100
-
-
-player_stats(player, "modify_hp", -30)
-print(f"After Damage HP: {player['hp']}")  # 70
-
-
-player_stats(player, "equip_item", ("weapon", "Iron Sword"))
-print(f"Weapon: {player['equipment']['weapon']}")  # Iron Sword
-
-
-player_stats(player, "increment_stat", "enemies_defeated")
-print(f"Enemies Defeated: {player['enemies_defeated']}")  # 1
+        def check_revival(self):
+            if self.hp == 0 and self.revival > 0: # Checks if the player has died and has a revival
+                self.revivals -= 1 # Use one revival
+                self.hp = self.max_hp # Restore hp
+                return True
+            return False
         
+if __name__ == "__main__":
+    player = Player()
+    print(f"Start HP: {player.hp}")  
+
+    player.modify_hp(-30)
+    print(f"After Damage HP: {player.hp}")  
+
+    player.equip_item("weapon", "Iron Sword")
+    print(f"Weapon: {player.equipment['weapon']}")  
+
+    player.enemies_defeated += 1
+    print(f"Enemies Defeated: {player.enemies_defeated}")  
