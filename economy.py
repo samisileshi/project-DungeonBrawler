@@ -1,4 +1,5 @@
 # Written by Wilson Huang
+
 def handle_economy(player, action_type, item_index=0):
     # Create a mini shop with prices
     shop = [

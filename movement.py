@@ -1,5 +1,4 @@
 #Written by Wilson Huang
-
 def print_board(player_pos, width=4, height=3):
     for y in range(height):
         row = ""

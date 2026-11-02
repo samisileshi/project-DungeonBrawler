@@ -1,0 +1,7 @@
+[
+    {"name": "Healing Potion", "type": "healing", "rarity": "Common", "price": 20},
+    {"name": "Iron Sword", "type": "weapon", "rarity": "Common", "price": 50},
+    {"name": "Steel Plate", "type": "armor", "rarity": "Rare", "price": 80},
+    {"name": "Rage Elixir", "type": "buff", "rarity": "Rare", "price": 40},
+    {"name": "Revival Charm", "type": "consumable", "rarity": "Epic", "price": 100}
+]
