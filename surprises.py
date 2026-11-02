@@ -66,10 +66,19 @@ if __name__ == "__main__":
         print("No save yet, starting fresh.")
     print("Surprises so far:", len(deck.history))
     while player["hp"] > 0:
-        input("Press Enter to step on the next square...")
+        print("1) Step 2) History 3) Save 4) Quit")
+        choice = input("Choose: ")
+        if choice == "1":
+            pick = deck.pick()
+            deck.apply_surprises(player, pick)
+            print(player)
+        elif choice == "2":
+            print(deck.history)
+        elif choice == "3":
+            deck.save(args.save_file)
+        elif choice == "4":
+            break
 
-        pick = deck.pick()
-        deck.apply_surprises(player, pick)
-        print(player)
-    print("You died!")
+    if player["hp"] <= 0:
+        print("You died!")
     deck.save(args.save_file)
