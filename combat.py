@@ -1,325 +1,211 @@
+"""Sami F9-F12: combat controller and backward-compatible integration API.
+
+Concrete enemy templates live in combat_enemies.json.
+Combat sessions can be saved to JSON using --combat-save PATH.
 """
-
-F9  Core Combat System
-F10 Parry System
-F11 Enemies and Elite Enemies
-F12 Boss System
-
-"""
-
+from __future__ import annotations
+from dataclasses import dataclass, field
+import json
+from pathlib import Path
 import random
+import time
+from typing import Callable
+from combat_entities import Combatant, CombatPlayer, Enemy, Boss
+from combat_encounters import (EncounterFactory, recursive_boss_fate,
+    DIFFICULTY_MULTIPLIERS, NORMAL_ENEMIES, ELITE_ENEMIES, BOSSES)
+from combat_parry import ParrySystem
 
+@dataclass
+class CombatResult:
+    won: bool
+    reason: str
+    turns: int
+    coins: int = 0
+    score: int = 0
+    contributions: dict[str, int] = field(default_factory=dict)
 
+class CombatEngine:
+    """One combat session; UI-free turn resolution, with optional CLI presenter."""
+    SPECIAL_COST = 15
 
-# F11/F12: enemy definitions
+    def __init__(self, player: CombatPlayer, enemy: Enemy, difficulty="adventurer",
+                 rng: random.Random | None = None, timeout_seconds: float = 180,
+                 clock: Callable[[], float] = time.monotonic):
+        if difficulty not in DIFFICULTY_MULTIPLIERS:
+            raise ValueError("Invalid difficulty")
+        self.player, self.enemy, self.difficulty = player, enemy, difficulty
+        self.rng = rng or random.Random()
+        self.parry = ParrySystem(self.rng)
+        self.timeout_seconds = timeout_seconds
+        self.clock = clock
+        self.started = clock()
+        self.turns = 0
+        self.log: list[str] = []
+        self.contributions: dict[str, int] = {player.name: 0}
+        self.result: CombatResult | None = None
 
-NORMAL_ENEMIES = [
-    {"name": "Goblin", "health": 45, "attack": 9, "parry_chance": 15, "special_chance": 10, "reward": 25},
-    {"name": "Skeleton", "health": 55, "attack": 11, "parry_chance": 20, "special_chance": 12, "reward": 25},
-    {"name": "Dungeon Rat", "health": 35, "attack": 8, "parry_chance": 8, "special_chance": 8, "reward": 25},
-]
+    def _say(self, message):
+        self.log.append(message)
 
-ELITE_ENEMIES = [
-    {"name": "Elite Knight", "health": 85, "attack": 16, "parry_chance": 30, "special_chance": 20, "reward": 60},
-    {"name": "Elite Orc", "health": 95, "attack": 18, "parry_chance": 20, "special_chance": 25, "reward": 60},
-]
+    def _finish(self, won: bool, reason: str):
+        if self.result is not None:
+            return self.result
+        coins = score = 0
+        if won and not self.enemy.reward_claimed:
+            score = self.enemy.reward
+            coins = self.rng.randint(5, 12) + (20 if isinstance(self.enemy, Boss) else 8 if self.enemy.enemy_type == "elite" else 0)
+            self.player.score += score
+            self.player.coins += coins
+            self.player.enemies_defeated += 1
+            if isinstance(self.enemy, Boss):
+                self.player.bosses_defeated += 1
+            self.enemy.reward_claimed = True
+        self.result = CombatResult(won, reason, self.turns, coins, score, self.contributions.copy())
+        self._say(f"Combat ended: {reason}. Reward: {score} score, {coins} coins.")
+        return self.result
 
-BOSSES = [
-    {"name": "Dungeon Warden", "health": 160, "attack": 23, "parry_chance": 25, "special_chance": 35, "reward": 100},
-    {"name": "Ash Dragon", "health": 190, "attack": 26, "parry_chance": 18, "special_chance": 40, "reward": 100},
-]
-
-DIFFICULTY_MULTIPLIERS = {
-    "rookie": 0.85,
-    "adventurer": 1.00,
-    "dungeon master": 1.20,
-}
-
-
-def create_player(name):
-    """Create simple player combat data for the terminal prototype. Later into class"""
-    return {
-        "name": name,
-        "health": 100,
-        "max_health": 100,
-        "attack": 15,
-        "defense": 3,
-        "speed": 10,
-        "special": 28,
-        "parry_chance": 35,
-        "perfect_parry_chance": 25,
-        "potions": 2,
-        "coins": 0,
-        "score": 0,
-    }
-
-
-def create_enemy(round_number=1, difficulty="adventurer", enemy_type="normal"):
-    """Create a normal, elite, or boss enemy scaled by round and difficulty."""
-    difficulty = difficulty.lower()
-    multiplier = DIFFICULTY_MULTIPLIERS.get(difficulty, 1.00)
-    round_multiplier = 1 + max(0, round_number - 1) * 0.08
-
-    if enemy_type == "elite":
-        template = random.choice(ELITE_ENEMIES)
-    elif enemy_type == "boss":
-        template = random.choice(BOSSES)
-    else:
-        template = random.choice(NORMAL_ENEMIES)
-        enemy_type = "normal"
-
-    enemy = template.copy()
-    enemy["type"] = enemy_type
-    enemy["max_health"] = max(1, int(enemy["health"] * multiplier * round_multiplier))
-    enemy["health"] = enemy["max_health"]
-    enemy["attack"] = max(1, int(enemy["attack"] * multiplier * round_multiplier))
-    return enemy
-
-
-
-# F10: parry system
-
-def try_parry(parry_chance, perfect_parry_chance=20):
-    """Return perfect or partial  or failed from percentage chances."""
-    parry_roll = random.randint(1, 100)
-
-    if parry_roll > parry_chance:
-        return "failed"
-
-    perfect_roll = random.randint(1, 100)
-    if perfect_roll <= perfect_parry_chance:
-        return "perfect"
-
-    return "partial"
-
-
-def damage_after_parry(raw_damage, parry_result):
-    """Apply the result of a parry to incoming damage."""
-    if parry_result == "perfect":
-        return 0
-
-    if parry_result == "partial":
-        # A non-perfect parry blocks a random 35%-65% of damage.
-        damage_multiplier = random.uniform(0.35, 0.65)
-        return max(0, int(raw_damage * damage_multiplier))
-
-    return raw_damage
-
-
-def enemy_parry(enemy, incoming_damage):
-    """Allow an enemy to parry a player's attack."""
-    parry_result = try_parry(enemy["parry_chance"], 15)
-    final_damage = damage_after_parry(incoming_damage, parry_result)
-    return parry_result, final_damage
-
-
-# -----------------------------
-# F9: core combat actions
-# -----------------------------
-def calculate_player_damage(player, action):
-    """Calculate damage for a normal or special player attack."""
-    if action == "special":
-        # Special attacks vary slightly so every hit is not identical.
-        return random.randint(player["special"] - 4, player["special"] + 4)
-
-    return random.randint(player["attack"] - 2, player["attack"] + 2)
-
-
-def player_attack(player, enemy, action="attack"):
-    """Resolve one player attack, including the enemy's parry chance."""
-    raw_damage = calculate_player_damage(player, action)
-    parry_result, final_damage = enemy_parry(enemy, raw_damage)
-    enemy["health"] = max(0, enemy["health"] - final_damage)
-
-    if parry_result == "perfect":
-        print(enemy["name"] + " PERFECT PARRIED the attack. No damage taken!")
-    elif parry_result == "partial":
-        print(enemy["name"] + " parried part of the attack.")
-
-    print(player["name"] + " dealt " + str(final_damage) + " damage to " + enemy["name"] + ".")
-    return final_damage
-
-
-def enemy_attack(player, enemy):
-    """Resolve one enemy attack and the player's parry attempt."""
-    raw_damage = random.randint(max(1, enemy["attack"] - 2), enemy["attack"] + 2)
-
-    if random.randint(1, 100) <= enemy["special_chance"]:
-        raw_damage = int(raw_damage * 1.5)
-        print(enemy["name"] + " used a SPECIAL ATTACK!")
-
-    parry_result = try_parry(player["parry_chance"], player["perfect_parry_chance"])
-    final_damage = damage_after_parry(raw_damage, parry_result)
-
-    # Defense reduces damage that gets through the parry.
-    final_damage = max(0, final_damage - player["defense"])
-    player["health"] = max(0, player["health"] - final_damage)
-
-    if parry_result == "perfect":
-        print("PERFECT PARRY! " + player["name"] + " took no damage.")
-    elif parry_result == "partial":
-        print(player["name"] + " partially parried the attack.")
-    else:
-        print(player["name"] + " failed to parry.")
-
-    print(enemy["name"] + " dealt " + str(final_damage) + " damage to " + player["name"] + ".")
-    return final_damage
-
-
-def use_potion(player):
-    """Use one health potion if available."""
-    if player["potions"] <= 0:
-        print("You do not have any health potions.")
-        return False
-
-    if player["health"] >= player["max_health"]:
-        print("Your health is already full.")
-        return False
-
-    heal_amount = min(30, player["max_health"] - player["health"])
-    player["health"] += heal_amount
-    player["potions"] -= 1
-    print("You restored " + str(heal_amount) + " health.")
-    return True
-
-
-def show_combat_status(player, enemy):
-    """Display current combat health and inventory information."""
-    print("\n----------------------------------------")
-    print(player["name"] + ": " + str(player["health"]) + "/" + str(player["max_health"]) + " HP")
-    print(enemy["name"] + " [" + enemy["type"].upper() + "]: " + str(enemy["health"]) + "/" + str(enemy["max_health"]) + " HP")
-    print("Potions: " + str(player["potions"]) + " | Coins: " + str(player["coins"]) + " | Score: " + str(player["score"]))
-    print("----------------------------------------")
-
-
-def give_combat_reward(player, enemy):
-    """Give score/coins for defeating an enemy from Sami's combat slice."""
-    player["score"] += enemy["reward"]
-    coins_found = random.randint(5, 12)
-    if enemy["type"] == "elite":
-        coins_found += 8
-    elif enemy["type"] == "boss":
-        coins_found += 20
-
-    player["coins"] += coins_found
-    print("Victory! +" + str(enemy["reward"]) + " score and +" + str(coins_found) + " coins.")
-
-
-def combat(player, enemy):
-    """Run a complete turn-based fight between one player and one enemy."""
-    print("\nA " + enemy["type"] + " enemy appeared: " + enemy["name"] + "!")
-
-    while player["health"] > 0 and enemy["health"] > 0:
-        show_combat_status(player, enemy)
-        print("[1] Base Attack")
-        print("[2] Special Attack")
-        print("[3] Health Potion")
-        print("[4] Inspect Enemy")
-
-        choice = input("Choose an action: ").strip()
-
-        if choice == "1":
-            player_attack(player, enemy, "attack")
-        elif choice == "2":
-            player_attack(player, enemy, "special")
-        elif choice == "3":
-            used = use_potion(player)
-            if not used:
-                # Invalid potion use should not waste the combat turn.
-                continue
-        elif choice == "4":
-            print("\n" + enemy["name"] + " stats:")
-            print("Attack: " + str(enemy["attack"]))
-            print("Parry Chance: " + str(enemy["parry_chance"]) + "%")
-            print("Special Chance: " + str(enemy["special_chance"]) + "%")
-            continue
+    def step(self, action: str, parry_attempt=True) -> CombatResult | None:
+        """Perform one turn. Invalid actions never consume a turn."""
+        if self.result:
+            return self.result
+        if self.clock() - self.started >= self.timeout_seconds:
+            return self._finish(False, "timeout")
+        if not self.player.alive:
+            return self._finish(False, "player defeated")
+        if not self.enemy.alive:
+            return self._finish(True, "enemy defeated")
+        if action not in {"attack", "special", "potion", "inspect"}:
+            raise ValueError("Use attack, special, potion, or inspect")
+        if action == "inspect":
+            self._say(f"{self.enemy.name}: HP={self.enemy.health}, attack={self.enemy.attack}, defense={self.enemy.defense}, effects={self.enemy.status_effects}")
+            return None
+        if action == "special" and self.player.focus < self.SPECIAL_COST:
+            self._say("Not enough focus.")
+            return None
+        if action == "potion" and (self.player.potions <= 0 or self.player.health >= self.player.max_health):
+            self._say("No usable potion or health already full.")
+            return None
+        self.turns += 1
+        for message in self.player.tick_statuses():
+            self._say(message)
+        if not self.player.alive:
+            return self._finish(False, "status damage")
+        if action == "potion":
+            self._say(f"{self.player.name} heals {self.player.drink_potion()} HP.")
         else:
-            print("Invalid action. Choose 1, 2, 3, or 4.")
-            continue
-
-        if enemy["health"] <= 0:
-            give_combat_reward(player, enemy)
-            return True
-
-        enemy_attack(player, enemy)
-
-    print(player["name"] + " was defeated by " + enemy["name"] + ".")
-    return False
-
-
-
-# F11/F12: encounter selection
-
-def roll_combat_encounter(round_number=1, difficulty="adventurer", force_type=None):
-    """Choose a combat encounter after a door triggers combat.
-
-    ``force_type`` is useful when another feature explicitly creates a normal,
-    elite, or boss door. Otherwise the encounter is randomly selected.
-    """
-    if force_type in ("normal", "elite", "boss"):
-        return create_enemy(round_number, difficulty, force_type)
-
-    roll = random.randint(1, 100)
-
-    # Bosses remain rare in random door encounters. The team can force one for
-    # a final-boss event by calling force_type="boss".
-    if roll <= 5:
-        enemy_type = "boss"
-    elif roll <= 25:
-        enemy_type = "elite"
-    else:
-        enemy_type = "normal"
-
-    return create_enemy(round_number, difficulty, enemy_type)
-
-
-def start_combat_from_door(player, round_number=1, difficulty="adventurer", encounter_chance=70):
-    """Door hook: roll whether entering a door starts combat system."""
-    roll = random.randint(1, 100)
-    if roll > encounter_chance:
-        print("No enemy was found behind this door.")
+            if action == "special":
+                self.player.focus -= self.SPECIAL_COST
+                raw = self.rng.randint(max(1, self.player.special - 4), self.player.special + 4)
+            else:
+                raw = self.rng.randint(max(1, self.player.attack - 2), self.player.attack + 2)
+                self.player.focus = min(self.player.max_focus, self.player.focus + 5)
+            parry = self.parry.resolve(self.enemy, difficulty=self.difficulty)
+            actual = self.enemy.take_damage(max(0, self.parry.mitigate(raw, parry) - self.enemy.defense))
+            self.contributions[self.player.name] += actual
+            self._say(f"{self.player.name} uses {action}: {actual} damage. Enemy parry: {parry}.")
+            if action == "special" and actual and self.rng.randint(1, 100) <= 20:
+                self.enemy.apply_status("burn", 2)
+                self._say(f"{self.enemy.name} is burning (2 turns).")
+        if not self.enemy.alive:
+            return self._finish(True, "enemy defeated")
+        for message in self.enemy.tick_statuses():
+            self._say(message)
+        if not self.enemy.alive:
+            return self._finish(True, "enemy defeated")
+        raw, cue = self.enemy.attack_cue(self.rng)
+        self._say(f"Attack cue: {self.enemy.name} prepares {cue}!")
+        parry = self.parry.resolve(self.player, parry_attempt, self.difficulty)
+        actual = self.player.take_damage(max(0, self.parry.mitigate(raw, parry) - self.player.defense))
+        self._say(f"{self.enemy.name} deals {actual} damage. Player parry: {parry}.")
+        if parry == "perfect":
+            counter = self.enemy.take_damage(5)
+            self.contributions[self.player.name] += counter
+            self._say(f"Perfect parry counterattack: {counter} damage!")
+        if not self.player.alive:
+            return self._finish(False, "player defeated")
+        if not self.enemy.alive:
+            return self._finish(True, "enemy defeated")
         return None
 
-    enemy = roll_combat_encounter(round_number, difficulty)
-    return combat(player, enemy)
+    def serialize(self) -> dict:
+        """Combat-only snapshot. Never saves the whole team's game state."""
+        from dataclasses import asdict
+        return {"version": 1, "difficulty": self.difficulty,
+                "player": asdict(self.player), "enemy": asdict(self.enemy),
+                "turns": self.turns, "contributions": self.contributions,
+                "remaining_seconds": max(0., self.timeout_seconds - (self.clock() - self.started)),
+                "result": asdict(self.result) if self.result else None}
 
+    def save(self, path: str | Path):
+        path = Path(path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(self.serialize(), indent=2), encoding="utf-8")
 
-def combat_demo():
-    print("=== Dungeon Brawler: Combat Prototype ===")
-    name = input("Player name: ").strip()
-    if name == "":
-        name = "Player 1"
+    @classmethod
+    def load(cls, path: str | Path, rng=None, clock=time.monotonic):
+        try:
+            data = json.loads(Path(path).read_text(encoding="utf-8"))
+            if data["version"] != 1:
+                raise ValueError("Unsupported combat save version")
+            player = CombatPlayer(**data["player"])
+            enemy_data = data["enemy"]
+            enemy = (Boss if enemy_data["enemy_type"] == "boss" else Enemy)(**enemy_data)
+            engine = cls(player, enemy, data["difficulty"], rng=rng,
+                         timeout_seconds=float(data["remaining_seconds"]), clock=clock)
+            engine.turns = int(data["turns"])
+            engine.contributions = dict(data["contributions"])
+            if data["result"] is not None:
+                engine.result = CombatResult(**data["result"])
+            return engine
+        except (OSError, KeyError, ValueError, TypeError, json.JSONDecodeError) as exc:
+            raise ValueError(f"Cannot load combat save: {exc}") from exc
 
-    print("\nDifficulty")
-    print("[1] Rookie")
-    print("[2] Adventurer")
-    print("[3] Dungeon Master")
-    difficulty_choice = input("Choose difficulty: ").strip()
+def run_door_combat(player_stats: dict, round_number=1, difficulty="adventurer",
+                    enemy_type=None, action_provider=None, rng=None) -> CombatResult:
+    """Integration hook for door owner; adapters avoid editing their code."""
+    rng = rng or random.Random()
+    player = CombatPlayer.from_team_stats(player_stats)
+    enemy = EncounterFactory(rng).roll(round_number, difficulty, enemy_type)
+    engine = CombatEngine(player, enemy, difficulty, rng)
+    result = play_terminal(engine, action_provider)
+    player.update_team_stats(player_stats)
+    return result
 
-    if difficulty_choice == "1":
-        difficulty = "rookie"
-    elif difficulty_choice == "3":
-        difficulty = "dungeon master"
+def play_terminal(engine: CombatEngine, action_provider=None) -> CombatResult:
+    """Text interface; action_provider is injectable for automated tests."""
+    choose = action_provider or input
+    print(f"\nEncounter: {engine.enemy.name} [{engine.enemy.enemy_type}]")
+    seen = 0
+    while engine.result is None:
+        p, e = engine.player, engine.enemy
+        print(f"\n{p.name}: {p.health}/{p.max_health} HP, {p.focus} Focus, {p.potions} potions")
+        print(f"{e.name}: {e.health}/{e.max_health} HP | Turn {engine.turns + 1}")
+        raw = choose("[1] Attack [2] Special (15 focus) [3] Potion [4] Inspect: ").strip()
+        action = {"1": "attack", "2": "special", "3": "potion", "4": "inspect"}.get(raw)
+        if action is None:
+            print("Invalid selection.")
+            continue
+        engine.step(action)
+        for message in engine.log[seen:]:
+            print(message)
+        seen = len(engine.log)
+    return engine.result
+
+def combat_demo(name="Player 1", difficulty="adventurer", enemy_type="normal",
+                round_number=1, seed=None, load=None, save=None):
+    rng = random.Random(seed)
+    if load:
+        engine = CombatEngine.load(load, rng=rng)
     else:
-        difficulty = "adventurer"
-
-    print("\nEncounter")
-    print("[1] Normal Enemy")
-    print("[2] Elite Enemy")
-    print("[3] Boss")
-    encounter_choice = input("Choose encounter: ").strip()
-
-    if encounter_choice == "2":
-        enemy_type = "elite"
-    elif encounter_choice == "3":
-        enemy_type = "boss"
-    else:
-        enemy_type = "normal"
-
-    player = create_player(name)
-    enemy = create_enemy(1, difficulty, enemy_type)
-    combat(player, enemy)
-
+        engine = CombatEngine(CombatPlayer(name=name, max_health=100, attack=15, defense=3,
+                                           parry_chance=35, perfect_parry_chance=25),
+                              EncounterFactory(rng).create(round_number, difficulty, enemy_type),
+                              difficulty, rng)
+    try:
+        return play_terminal(engine)
+    finally:
+        if save:
+            engine.save(save)
 
 if __name__ == "__main__":
     combat_demo()
