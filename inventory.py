@@ -32,16 +32,10 @@ def display_equipment_and_inventory(inventory: list, equipment: dict):
             index += 1
 
 if __name__ == "__main__":
-    hero_equipment = {
-        "Weapon": {"name": "Iron Sword", "type": "weapon", "rarity": "Common"},
-        "Armor": None,
-    }
+    hero_equipment = {"Weapon": {"name": "Iron Sword", "type": "weapon", "rarity": "Common"},"Armor": None,}
 
-    hero_inventory = [
-        {"name": "Steel Plate", "type": "armor", "rarity": "Rare"},
-    ]
-    display_equipment_and_inventory(hero_inventory, hero_equipment)
-    print("\nHealth Potions owned:", count_item(hero_inventory, "Health Potion"))         
+    hero_inventory = [{"name": "Steel Plate", "type": "armor", "rarity": "Rare"},]
+    display_equipment_and_inventory(hero_inventory, hero_equipment)       
 
     items = load_items("items.json")
     print("Items loaded from items.json:", len(items)) 
