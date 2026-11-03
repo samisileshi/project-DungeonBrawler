@@ -7,6 +7,7 @@ from Milestone 1 onward. Replace the placeholder below with your own core loop.
 #By Youssouf: Command line agrument to set the difficulty by setting the chance to find an escape door at the start of the game
 from escape_sys import EscapeSystem
 import argparse
+import json
 from player import Player
 from door import Door
 from game_state import GameState
@@ -17,8 +18,16 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--escape-chance", type = int, default =10, help ="Set the escape door chance.")
 args = parser.parse_args()
 
+p1 = Player("Youssouf", 100)
+doors = [Door("Fire Door", "Combat", 200), Door("Ice Door", "Combat", 200), Door("Boss Door", "Combat", 200)]
+
+Door.door_menu(p1, doors)
+
+
 #makes the ecape sys using the new chance
 escape_system = EscapeSystem(escape_chance = args.escape_chance)
+
+print(f"Escape chance: {args.escape_chance}%")
 
 ENABLE_COMBAT_DEMO = False
 
