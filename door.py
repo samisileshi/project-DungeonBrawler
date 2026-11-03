@@ -67,6 +67,44 @@ class door:
         # recursive case
         return current + door.count_comp_doors(doors[1:])
 
+
+    def door_menu(player, doors:list[door]):
+        #shows the menu until the player exits.
+        while True:
+            print("\nDoor Menu----")
+            #displays all doors.
+            for i, door in enumerate(doors):
+                if door.completed:
+                    status = "Completed"
+                else:
+                    status = "Available"
+
+                print(i+1, ":" , door.name, "-", status)
+                
+            print("press 0 to exit")
+
+            #asks the player to select door.
+            choice = input("Choose a door: ")
+
+            #exits
+            if choice == "0":
+                break
+
+            # checks its a numba
+            if choice.isdigit():
+                door_index = int(choice) - 1
+                if 0 <= door_index and door_index <= len(doors):
+                    selec_door = doors[door_index]
+                    # Check whether the door can be attempted.
+                    if selec_door.can_attempt(player):
+                        print("selected:", selec_door.name)
+                    else:
+                        print("door is already completed")
+                else:
+                    print("invalid door number")
+            else:
+                print("not a number")
+
     def to_dict(self):
         #converts the door into a dictionary for JSON
         return {
