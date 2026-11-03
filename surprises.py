@@ -54,7 +54,7 @@ class SurpriseDeck:
 
 
 # Demo
-if __name__ == "__main__":
+def run():
     parser = argparse.ArgumentParser()
     parser.add_argument("--save-file", default="surprises_save.json")
     args = parser.parse_args()
@@ -82,3 +82,7 @@ if __name__ == "__main__":
     if player["hp"] <= 0:
         print("You died!")
     deck.save(args.save_file)
+
+
+if __name__ == "__main__":
+    run()
