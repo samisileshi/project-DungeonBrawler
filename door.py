@@ -4,7 +4,7 @@
 
 import random 
 #Thsi is my door class
-class door:
+class Door:
     #This Door constructor replaces the new_door method
     def __init__(self, name, door_type, score_reward = 200):
         self.name = name
@@ -54,7 +54,7 @@ class door:
         return True 
 
 
-    def count_comp_doors(doors: list["door"]):
+    def count_comp_doors(doors: list["Door"]):
         # base case is when the list is empty
         if not doors:
             return 0
@@ -65,10 +65,10 @@ class door:
             current = 0
 
         # recursive case
-        return current + door.count_comp_doors(doors[1:])
+        return current + Door.count_comp_doors(doors[1:])
 
 
-    def door_menu(player, doors:list[door]):
+    def door_menu(player, doors:list[Door]):
         #shows the menu until the player exits.
         while True:
             print("\nDoor Menu----")
@@ -96,7 +96,7 @@ class door:
                 if 0 <= door_index and door_index <= len(doors):
                     selec_door = doors[door_index]
                     # Check whether the door can be attempted.
-                    if selec_door.can_attempt(player):
+                    if selec_door.can_attempt_door(player):
                         print("selected:", selec_door.name)
                     else:
                         print("door is already completed")
