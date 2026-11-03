@@ -12,7 +12,7 @@ class door:
         self.score_reward = score_reward
         self.completed = False
         self.completed_by = None
-        self.failed_by = None
+        self.failed_by = []
         #So rewards arent given more then once
         self.reward_given = False
 
@@ -30,13 +30,12 @@ class door:
 
             #checks that the reward has not already been given.
             if self.reward_given is False:
-                player.score += self.score_reward  #givee the player score.
+                player.score += self.score_reward  
                 self.reward_given = True  
 
             #count as completed door.
             player.doors_completed += 1 
 
-            # Tell the rest of the program that the door succeeded.
             return "Door completed"
 
         #record the player's failed attempt.
@@ -54,11 +53,25 @@ class door:
         
         return True 
 
+
+    def count_comp_doors(doors: list["door"]):
+        # base case is when the list is empty
+        if not doors:
+            return 0
+
+        if doors[0].completed:
+            current = 1
+        else:
+            current = 0
+
+        # recursive case
+        return current + door.count_comp_doors(doors[1:])
+
     def to_dict(self):
         #converts the door into a dictionary for JSON
         return {
             "name": self.name,
-            "type": self.type,
+            "type": self.door_type,
             "score_reward": self.score_reward,
             "completed": self.completed,
             "completed_by": self.completed_by,
@@ -78,3 +91,4 @@ class door:
         door.failed_by = data["failed_by"]
         door.reward_given = data["reward_given"]
         return door
+

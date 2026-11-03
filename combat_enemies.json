@@ -1,0 +1,71 @@
+{
+  "normal": [
+    {
+      "name": "Goblin",
+      "health": 45,
+      "attack": 9,
+      "defense": 2,
+      "parry_chance": 15,
+      "special_chance": 10,
+      "reward": 25
+    },
+    {
+      "name": "Skeleton",
+      "health": 55,
+      "attack": 11,
+      "defense": 3,
+      "parry_chance": 20,
+      "special_chance": 12,
+      "reward": 25
+    },
+    {
+      "name": "Dungeon Rat",
+      "health": 35,
+      "attack": 8,
+      "defense": 1,
+      "parry_chance": 8,
+      "special_chance": 8,
+      "reward": 25
+    }
+  ],
+  "elite": [
+    {
+      "name": "Elite Knight",
+      "health": 85,
+      "attack": 16,
+      "defense": 6,
+      "parry_chance": 30,
+      "special_chance": 20,
+      "reward": 60
+    },
+    {
+      "name": "Elite Orc",
+      "health": 95,
+      "attack": 18,
+      "defense": 4,
+      "parry_chance": 20,
+      "special_chance": 25,
+      "reward": 60
+    }
+  ],
+  "boss": [
+    {
+      "name": "Dungeon Warden",
+      "health": 160,
+      "attack": 23,
+      "defense": 7,
+      "parry_chance": 25,
+      "special_chance": 35,
+      "reward": 100
+    },
+    {
+      "name": "Ash Dragon",
+      "health": 190,
+      "attack": 26,
+      "defense": 6,
+      "parry_chance": 18,
+      "special_chance": 40,
+      "reward": 100
+    }
+  ]
+}
