@@ -72,7 +72,7 @@ Samuel S - Look at combat.py for the combat function. And main.py at main() for 
 |---------|-----|----------|-----------|-------------------|---------------------|
 | Obaidullah Ahmad | 5c92807 | 12f4e86 | f348695 | 8862c48 | f81309f |
 | Wilson H| ba1d3e9|2e0ec9d| 2e0ec9d|      c408010      | c408010             |
-| <name>  |     |          |           |                   |                     |
+| Youssouf |3f1ce8d,5f300b6,278940e,25167c4|498d67b|ebd9d4b|312cb64| ae423b1|
 | <name>  |     |          |           |                   |                     |
 | <name>  |     |          |           |                   |                     |
 
