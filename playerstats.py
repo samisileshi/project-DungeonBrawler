@@ -35,16 +35,32 @@ class Player:
             self.hp = self.maxhp # Restore hp
             return True
         return False
+
+    def display_stats(self):
+        print("\n==== " + self.username + "'s Stats ====")
+        print("HP: " + str(self.hp) + "/" + str(self.maxhp))
+        print("Attack: " + str(self.attack))
+        print("Defense: " + str(self.defense))
+        print("Focus: " + str(self.focus))
+        print("Coins: " + str(self.coins))
+        print("Renown: " + str(self.renown))
+        print("Escape Sigils: " + str(self.escape_sigils))
+        print("Inventory: " + str(len(self.inventory)) + " items")
+
+        print("Equipment:")
+        for slot, item in self.equipment.items(): 
+            if item: 
+                print("  " + slot + ": " + str(item))
+            else:
+                print("  " + slot + ": Empty")
+
+        print("Buffs: " + str(self.buffs))
+        print("Debuffs: " + str(self.debuffs))
+        print("Doors Completed: " + str(self.doors_completed))
+        print("Bosses Defeated: " + str(self.bosses_defeated))
+        print("Minigames Won: " + str(self.minigames_won))
+        print("Revivals: " + str(self.revivals))
         
 if __name__ == "__main__":
-    player = Player()
-    print(f"Start HP: {player.hp}")  
-
-    player.modify_hp(-30)
-    print(f"After Damage HP: {player.hp}")  
-
-    player.equip_item("weapon", "Iron Sword")
-    print(f"Weapon: {player.equipment['weapon']}")  
-
-    player.bosses_defeated += 1
-    print(f"Bosses Defeated: {player.bosses_defeated}")  
+    hero = Player("Player 1")
+    hero.display_stats()
