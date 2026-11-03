@@ -4,6 +4,17 @@
 from Milestone 1 onward. Replace the placeholder below with your own core loop.
 """
 
+#By Youssouf: Command line agrument to set the difficulty by setting the chance to find an escape door at the start of the game
+from escape_sys import EscapeSystem
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--escape-chance", type = int, default =10, help ="Set the escape door chance.")
+args = parser.parse_args()
+
+#makes the ecape sys using the new chance
+escape_system = EscapeSystem(escape_chance = args.escape_chance)
+
 ENABLE_COMBAT_DEMO = False
 
 
@@ -17,6 +28,8 @@ def run_sami_combat(argv=None, **kwargs):
     finally:
         # Reset the opt-in switch after combat, even when something fails.
         disable_combat_demo()
+
+
 
 
 def main():
