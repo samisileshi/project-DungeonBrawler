@@ -1,0 +1,16 @@
+Ibrahim Mian
+
+My slice generates the dungeon every round, displays it when the user checks the map, and handles the logic for timers and pausing the game.
+
+Dungeon Gen:
+dungeonMap.py takes a difficulty and assigns difficulty modifiers based on that, and first generates the minimum number of doors, then rolls to check if every remaining
+potential door will become an extra door. Door generation completely restarts if the dungeon is completely interconnected (i.e. you can get to any room from a given point).
+Then, it rolls for each room to become an entity based on the modifiers. After that, it displays the newly-generated ASCII dungeon map.
+
+Pausing:
+Pausing takes the player who wants to pause, the other player, and the pausing player's inventory and equipment. It asks the other player if they're all right with pausing,
+and if so, displays the pause menu to the pausing player. The options are Resume, Inventory, Stats, Options, and Quit.
+
+Timers:
+There are three timers: one for the dungeon, one for the round, and one for combat. Each one has two functions, one to initialize the start time and duration from its
+arguments, and one to check if the timer has expired.
