@@ -2,69 +2,35 @@
 # Wed, Nov 4, 2026
 # 1.0
 
-# Todo: round timer, combat timer, overall timer
-
 import time
 
-dungeonStartTime: float
-dungeonDuration: float
+class Timer :
+    def __init__ (self, duration: float = 5.0) -> None :
+        self.start = time.time() / 60.0
+        self.duration = duration
 
-roundStartTime: float
-roundDuration: float
-
-combatStartTime: float
-combatDuration: float
-
-def dungeonStart (duration: float = 5.0) -> None :
-    global dungeonStartTime
-    global dungeonDuration
-    dungeonStartTime = time.time() / 60.0
-    dungeonDuration = duration
-
-def isDungeonFinished() -> bool :
-    if time.time() / 60.0 - dungeonStartTime > dungeonDuration :
-        return True
-    return False
-
-def roundStart (duration: float = 5.0) -> None :
-    global roundStartTime
-    global roundDuration
-    roundStartTime = time.time() / 60.0
-    roundDuration = duration
-
-def isRoundFinished() -> bool :
-    if time.time() / 60.0 - roundStartTime > roundDuration :
-        return True
-    return False
-
-def combatStart (duration: float = 5.0) -> None :
-    global combatStartTime
-    global combatDuration
-    combatStartTime = time.time() / 60.0
-    combatDuration = duration
-
-def isCombatFinished() -> bool :
-    if time.time() / 60.0 - combatStartTime > combatDuration :
-        return True
-    return False
+    def isFinished (self) -> bool :
+        if time.time() / 60.0 - self.start > self.duration :
+            return True
+        return False
 
 if __name__ == "__main__" :
     print("TIMERS DEMO:\n")
 
-    dungeonStart(1.0 / 6.0)
+    dungeonTimer: Timer = Timer (1.0 / 6.0)
     time.sleep(5)
-    print(str(isDungeonFinished()))
+    print(str(dungeonTimer.isFinished()))
     time.sleep(5)
-    print(str(isDungeonFinished()) + "\n")
+    print(str(dungeonTimer.isFinished()) + "\n")
 
-    roundStart(1.0 / 6.0)
+    roundTimer: Timer = Timer (1.0 / 6.0)
     time.sleep(5)
-    print(str(isRoundFinished()))
+    print(str(roundTimer.isFinished()))
     time.sleep(5)
-    print(str(isRoundFinished()) + "\n")
+    print(str(roundTimer.isFinished()) + "\n")
 
-    combatStart(1.0 / 6.0)
+    combatTimer: Timer = Timer (1.0 / 6.0)
     time.sleep(5)
-    print(str(isCombatFinished()))
+    print(str(combatTimer.isFinished()))
     time.sleep(5)
-    print(str(isCombatFinished()), end = "")
+    print(str(combatTimer.isFinished()), end = "")
