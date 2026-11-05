@@ -4,15 +4,6 @@
 
 import time
 
-dungeonStartTime: float
-dungeonDuration: float
-
-roundStartTime: float
-roundDuration: float
-
-combatStartTime: float
-combatDuration: float
-
 class Timer :
     def __init__ (self, duration: float = 5.0) -> None :
         self.start = time.time() / 60.0

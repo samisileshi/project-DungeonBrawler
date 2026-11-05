@@ -32,6 +32,7 @@ legend: dict = {"door"           : 'D',
                 "safeZone"       : 'S',
 
                 "nullCell"       : '0'}
+diff: str = None
 
 diffMods: dict = {"rookie"         : {"minDoors"      : 4,
                                       "extraDoorRoll" : 0.25,
@@ -107,10 +108,7 @@ def getCell(coords: list[int] = [0, 0]) -> char :
 def setCell(coords: list[int] = [0, 0], newCell: char = legend.get("nullCell")) -> None :
     dungeonMap[coords[0]] = dungeonMap[coords[0]][:coords[1]] + newCell + dungeonMap[coords[0]][coords[1] + 1:]
 
-def generateMap(diff: str = "adventurer") -> None :
-    diff = diff.lower()
-    if diff not in diffMods :
-        diff = "adventurer"
+def generateMap() -> None :
     allRoomsConnected: bool = False
     extraDoorRoll: float = diffMods.get(diff).get("extraDoorRoll")
     shopRoll: float = diffMods.get(diff).get("shopRoll")
@@ -181,18 +179,23 @@ def generateMap(diff: str = "adventurer") -> None :
             setCell(entity, legend.get("empty"))
 
 def displayMap() -> None :
-    print("\n".join(dungeonMap), end = "")
+    print("\n".join(dungeonMap))
+
+    if __name__ == "__main__" :
+        print("\b", end = "")
 
 def printRoomDemo() -> None :
     print("Enemy in room: \"" + random.choice(["A foe", "A fearsome foe", "An ominous figure"]) + " charges from the gloom!\"")
     print("Chest in room: \"There is a chest in the room. Probably not a mimic.\"")
     print("Looted chest in room: \"Wasn't a mimic.\"")
     print("Door in room (after encounter/loot): \"A door leads " + random.choice(["north", "east", "south", "west"]) + ".\"")
-    print("Other player in room: \"Oh... it's *that one*.\"", end = "")
+    print("Other player in room: \"Oh... it's *that one*.\"")
+
+    if __name__ == "__main__" :
+        print("\b", end = "")
 
 if __name__ == "__main__" :
     print("MAP GEN DEMO:\n")
-    diff: str = None
 
     while diff not in diffMods :
         print("Enter a difficulty: \"Rookie\", \"Adventurer\", or \"Dungeon Master\".")
@@ -202,5 +205,5 @@ if __name__ == "__main__" :
         if diff not in diffMods :
             print("Error. ", end = "")
 
-    generateMap(diff)
+    generateMap()
     displayMap()

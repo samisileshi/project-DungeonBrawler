@@ -3,10 +3,20 @@
 # 1.0
 
 import random
+import time
+import tkinter
 from playerstats import Player
-from inventory import display_equipment_and_inventory as displayInventory
+from inventory import display_equipment_and_inventory
 
-def pause(pausingPlayer: Player = Player("pausingPlayer"), otherPlayer: Player = Player("otherPlayer"), inventory: list[dict] = [], equipment: dict = {}) -> None :
+inventory: list[dict] = [{"name"   : "Steel Plate",
+                          "type"   : "armor",
+                          "rarity" : "Rare"}]
+equipment: dict = {"Weapon" : {"name"   : "Iron Sword",
+                               "type"   : "weapon",
+                               "rarity" : "Common"},
+                   "Armor"  : None}
+
+def pause(pausingPlayer: Player = Player("pausingPlayer"), otherPlayer: Player = Player("otherPlayer")) -> None :
     print(pausingPlayer.username + " needs a break. What about you, " + otherPlayer.username + "? (Yes/No)")
     answer: str = input("> ").strip().lower()
 
@@ -15,40 +25,39 @@ def pause(pausingPlayer: Player = Player("pausingPlayer"), otherPlayer: Player =
         answer = input("> ").strip().lower()
 
     if answer == "yes" :
-        print("\n" + otherPlayer.username + " agrees to take a break.")
-        paused: bool = True
+        print("\n" + otherPlayer.username + " agrees to take a break.", end = "")
+        time.sleep(1)
 
-        while paused :
-            print("\n\t----------Pause Menu----------\t")
-            choice: int = 0;
+        pauseMenu: Tk = tkinter.Tk()
+        pauseMenu.title("Dungeon Brawler Pause Menu")
+        pauseMenu.geometry("150x175")
+        pauseMessage: Label = tkinter.Label(pauseMenu, text = pausingPlayer.username + " has paused.")
+        pauseMessage.pack(pady = 10)
 
-            while choice < 1 or choice > 5 :
-                print("""Please select one of the options below by number:\n
-                         \r\t\t 1. Resume
-                         \r\t\t 2. Inventory
-                         \r\t\t 3. Stats
-                         \r\t\t 4. Options
-                         \r\t\t 5. Quit\n""")
-                choice = int(input("> ").strip())
+        resumeButton: Button = tkinter.Button(pauseMenu, text = "Resume", command = pauseMenu.destroy)
+        resumeButton.pack()
+        inventoryButton: Button = tkinter.Button(pauseMenu, text = "Inventory", command = lambda : (print(), display_equipment_and_inventory(inventory, equipment), print("\b", end = "")))
+        inventoryButton.pack()
+        statsButton: Button = tkinter.Button(pauseMenu, text = "Stats", command = lambda : (print(), pausingPlayer.display_stats(), print("\b", end = "")))
+        statsButton.pack()
+        optionsButton: Button = tkinter.Button(pauseMenu, text = "Options", command = lambda : print("\n\nWIP", end = ""))
+        optionsButton.pack()
+        quitButton: Button = tkinter.Button(pauseMenu, text = "Quit", command = quit)
+        quitButton.pack()
 
-                if choice < 1 or choice > 5 :
-                    print("\nError. ", end = "")
+        pauseMenu.deiconify()
+        pauseMenu.lift()
+        pauseMenu.attributes("-topmost", True)
+        pauseMenu.attributes("-topmost", False)
+        pauseMenu.focus_force()
+        pauseMenu.mainloop()
 
-            match choice :
-                case 1 :
-                    paused = False;
-                case 2 :
-                    displayInventory(inventory, equipment)
-                case 3 :
-                    pausingPlayer.display_stats()
-                case 4 :
-                    print("\nComing Soon!")
-                case 5 :
-                    quit()
-                case _ :
-                    print("\nHow did you find this? This shouldn't even be possible!")
+        print("\n\n" + pausingPlayer.username + " has resumed.")
     else :
-        print("\n" + otherPlayer.username + " doesn't want to take a break.", end = "")
+        print("\n" + otherPlayer.username + " doesn't want to take a break.")
+
+    if __name__ == "__main__" :
+        print("\b", end = "")
 
 if __name__ == "__main__" :
     print("PAUSE DEMO:\n")
@@ -59,4 +68,4 @@ if __name__ == "__main__" :
     otherPlayer: Player = Player(input("> ").strip())
     print()
 
-    pause(pausingPlayer, otherPlayer, [{"name": "Steel Plate", "type": "armor", "rarity": "Rare"}], {"Weapon": {"name": "Iron Sword", "type": "weapon", "rarity": "Common"}, "Armor": None})
+    pause(pausingPlayer, otherPlayer)
