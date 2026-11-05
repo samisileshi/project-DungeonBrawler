@@ -71,3 +71,11 @@ def inspect_tile(player_name, player_pos, board):
     # If its an ordinary room, skip everything.
     else: 
         print("This tile is an empty room")
+
+if __name__ == "__main__":
+    board = {
+        (0, 0): {"Name": "Entrance", "Description": "A chilly doorway."},
+        (1, 0): {"Name": "Hallway", "Description": "Dark corridor.", "trap": "Spikes"},
+        (0, 1): {"Name": "Armory", "Description": "Weapon racks.", "item": "Sword"}
+    }
+    inspect_tile("Hero", (0, 0), board)
