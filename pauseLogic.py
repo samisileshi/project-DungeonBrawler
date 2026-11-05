@@ -2,7 +2,6 @@
 # Mon, Sep 28, 2026
 # 1.0
 
-import random
 import time
 import tkinter
 from playerstats import Player

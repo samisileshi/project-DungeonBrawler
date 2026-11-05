@@ -32,8 +32,8 @@ legend: dict = {"door"           : 'D',
                 "safeZone"       : 'S',
 
                 "nullCell"       : '0'}
-diff: str = None
 
+diff: str = None
 diffMods: dict = {"rookie"         : {"minDoors"      : 4,
                                       "extraDoorRoll" : 0.25,
 

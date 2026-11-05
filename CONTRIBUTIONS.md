@@ -19,13 +19,13 @@ Each member owns **one comparable feature**, built end to end across the term; e
 milestone adds its new topics to *each* slice. Agree on these at Milestone 0 and fill them
 in - the rest of this file is one row per member, per milestone, against their slice.
 
-| Student | Slice (the feature they own) |
-|---------|------------------------------|
-| Wilson  | F3 Player Movement, Inspection and Selection, F8 Player Stats and Progression Data, F13 Items Inventory and Equipment, F14 Coins Shop and Economy|
-| Youssouf| F5 Door Completion and Failure System , F6 Turn and Round Logic, F16 Chests and Contested Objects, Renown, F17 Escape Sigils and Escape Doors|
-| Sami    | F9 Core Combat System, F10 Parry System, F11 Enemies and Elite Enemies, F12 Boss System|
-| Ibrahim | F1 Dungeon Grid and Positions, F2 Round Board Generation and RNG, F4 Door Information and Door Generation, F7 Timers and Pause Logic          |
-| Obaidullah Ahmad   | F15 Special Dungeon Events, F18 Death and Revival Momentum, F19 Minigame System, F20 Difficulty and Victory System                    |
+| Student          | Slice (the feature they own)                                                                                                                      |
+|------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| Wilson           | F3 Player Movement, Inspection and Selection, F8 Player Stats and Progression Data, F13 Items Inventory and Equipment, F14 Coins Shop and Economy |
+| Youssouf         | F5 Door Completion and Failure System , F6 Turn and Round Logic, F16 Chests and Contested Objects, Renown, F17 Escape Sigils and Escape Doors     |
+| Sami             | F9 Core Combat System, F10 Parry System, F11 Enemies and Elite Enemies, F12 Boss System                                                           |
+| Ibrahim          | F1 Dungeon Grid and Positions, F2 Round Board Generation and RNG, F4 Door Information and Door Generation, F7 Timers and Pause Logic              |
+| Obaidullah Ahmad | F15 Special Dungeon Events, F18 Death and Revival Momentum, F19 Minigame System, F20 Difficulty and Victory System                                |
 
 <!-- Teams of four: delete the fifth row, here and in the tables below. -->
 
@@ -47,39 +47,39 @@ topic **in their own slice**.
 Worked example:
 
 | Student | Planning | Control flow | Collections | Functions |
-|---------|----------|--------------|-------------|-----------|
-| Alice   | a1b2c3d  | e4f5a6b      | e4f5a6b     | 9f8e7d6   |
-| Bob     | b2c3d4e  | 1c2d3e4      | 1c2d3e4     | 7a6b5c4   |
+|---------|:--------:|:------------:|:-----------:|:---------:|
+| Alice   | a1b2c3d  |   e4f5a6b    |   e4f5a6b   |  9f8e7d6  |
+| Bob     | b2c3d4e  |   1c2d3e4    |   1c2d3e4   |  7a6b5c4  |
 
 ---
 
 ## Milestone 1 - Core Prototype (Units 01-02)
 
 | Student          | Planning | Control flow | Collections | Functions |
-|------------------|----------|--------------|-------------|-----------|
-| Samuel S         | bd05cb1  | bd05cb1      | bd05cb1     | bd05cb1   |
-| Wilson H         | cc3de54  | d769bd7      | d769bd7     | d769bd7   |
-| Youssouf TM      | 1e61b7d  | 1e61b7d      | 1e61b7d     | 1e61b7d   |
-| Obaidullah Ahmad | b2f1fb8  | 0dee83d      | 0dee83d     | 0dee83d   |
-| Ibrahim          | 0699a6c  | 0699a6c      | 0699a6c     | 0699a6c   |
+|------------------|:--------:|:------------:|:-----------:|:---------:|
+| Samuel S         | bd05cb1  |   bd05cb1    |   bd05cb1   |  bd05cb1  |
+| Wilson H         | cc3de54  |   d769bd7    |   d769bd7   |  d769bd7  |
+| Youssouf TM      | 1e61b7d  |   1e61b7d    |   1e61b7d   |  1e61b7d  |
+| Obaidullah Ahmad | b2f1fb8  |   0dee83d    |   0dee83d   |  0dee83d  |
+| Ibrahim          | 0699a6c  |   0699a6c    |   0699a6c   |  0699a6c  |
 
 <!-- Optional but recommended: a line per member saying which function or file to look at. -->
 Samuel S - Look at combat.py for the combat function. And main.py at main() for calling function.
 
 ## Milestone 2 - Practical Application (Unit 03)
 
-| Student | OOP | File I/O | Recursion | Command-line args | Interface (TUI/GUI) |
-|---------|-----|----------|-----------|-------------------|---------------------|
-| Obaidullah Ahmad | 5c92807 | 12f4e86 | f348695 | 8862c48 | f81309f |
-| Wilson H| ba1d3e9|2e0ec9d| 2e0ec9d|      c408010      | c408010             |
-| Youssouf |3f1ce8d,5f300b6,278940e,25167c4|498d67b|ebd9d4b|312cb64| ae423b1|
-| <name>  |     |          |           |                   |                     |
-| <name>  |     |          |           |                   |                     |
+| Student          |               OOP               | File I/O | Recursion | Command-line args | Interface (TUI/GUI) |
+|------------------|:-------------------------------:|:--------:|:---------:|:-----------------:|:-------------------:|
+| Obaidullah Ahmad |             5c92807             | 12f4e86  |  f348695  |      8862c48      |       f81309f       |
+| Wilson H         |             ba1d3e9             | 2e0ec9d  |  2e0ec9d  |      c408010      |       c408010       |
+| Youssouf         | 3f1ce8d,5f300b6,278940e,25167c4 | 498d67b  |  ebd9d4b  |      312cb64      |       ae423b1       |
+| Ibrahim          |             cc80376             |   N/A    |    N/A    |        N/A        |       229b774       |
+| <name>           |                                 |          |           |                   |                     |
 
 ## Milestone 3 - Final Product (Units 04-05)
 
 | Student | Data structure | Algorithm strategy | Sockets | Concurrency |
-|---------|----------------|--------------------|---------|-------------|
+|---------|:--------------:|:------------------:|:-------:|:-----------:|
 | <name>  |                |                    |         |             |
 | <name>  |                |                    |         |             |
 | <name>  |                |                    |         |             |
