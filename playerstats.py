@@ -37,7 +37,7 @@ class Player:
         return False
 
     def display_stats(self):
-        print("\n==== " + self.username + "'s Stats ====")
+        print("==== " + self.username + "'s Stats ====")
         print("HP: " + str(self.hp) + "/" + str(self.maxhp))
         print("Attack: " + str(self.attack))
         print("Defense: " + str(self.defense))
