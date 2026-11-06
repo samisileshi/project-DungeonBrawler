@@ -14,7 +14,7 @@ def count_item(inventory, name):
     return count_item(inventory[1:],name) #If the first item we checked isnt the one we are looking for, keep looking
 
 def display_equipment_and_inventory(inventory: list, equipment: dict):
-    print("\nEquipped Gear")
+    print("Equipped Gear")
     for slot, item in equipment.items(): # Goes through each equipment slot
         if item: # Checks if the item is there 
             name = item["name"] # Get the item name
