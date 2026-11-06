@@ -61,7 +61,7 @@ Worked example:
 | Wilson H         | cc3de54  |   d769bd7    |   d769bd7   |  d769bd7  |
 | Youssouf TM      | 1e61b7d  |   1e61b7d    |   1e61b7d   |  1e61b7d  |
 | Obaidullah Ahmad | b2f1fb8  |   0dee83d    |   0dee83d   |  0dee83d  |
-| Ibrahim          | 0699a6c  |   0699a6c    |   0699a6c   |  0699a6c  |
+| Ibrahim          | 96f7403  |   96f7403    |   96f7403   |  96f7403  |
 
 <!-- Optional but recommended: a line per member saying which function or file to look at. -->
 Samuel S - Look at combat.py for the combat function. And main.py at main() for calling function.
@@ -73,7 +73,7 @@ Samuel S - Look at combat.py for the combat function. And main.py at main() for 
 | Obaidullah Ahmad |             5c92807             | 12f4e86  |  f348695  |      8862c48      |       f81309f       |
 | Wilson H         |             ba1d3e9             | 2e0ec9d  |  2e0ec9d  |      c408010      |       c408010       |
 | Youssouf         | 3f1ce8d,5f300b6,278940e,25167c4 | 498d67b  |  ebd9d4b  |      312cb64      |       ae423b1       |
-| Ibrahim          |             cc80376             |   N/A    |    N/A    |        N/A        |       229b774       |
+| Ibrahim          |             cc80376             |   N/A    |    N/A    |      5843510      |       229b774       |
 | <name>           |                                 |          |           |                   |                     |
 
 ## Milestone 3 - Final Product (Units 04-05)
