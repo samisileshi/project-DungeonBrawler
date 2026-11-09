@@ -74,7 +74,7 @@ Samuel S - Look at combat.py for the combat function. And main.py at main() for 
 | Wilson H         |             ba1d3e9             | 2e0ec9d  |  2e0ec9d  |      c408010      |       c408010       |
 | Youssouf         | 3f1ce8d,5f300b6,278940e,25167c4 | 498d67b  |  ebd9d4b  |      312cb64      |       ae423b1       |
 | Ibrahim          |             cc80376             |   N/A    |    N/A    |      5843510      |       229b774       |
-| <name>           |                                 |          |           |                   |                     |
+| Samuel S         |             35294d1             | 35294d1  |  35294d1  |      35294d1      |       35294d1       |
 
 ## Milestone 3 - Final Product (Units 04-05)
 
