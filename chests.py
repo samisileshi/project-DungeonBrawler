@@ -7,8 +7,14 @@ class Chest:
     def __init__(self):
         self.chest_loot = ["Health Potion", "Iron Sword"]
         self.loot = random.choice(self.chest_loot)
+
+        # FIXME: the buffs list could be initialized outside the class, if self.buff just needs one buff
+        #   -Ibrahim
         self.buffs = ["+10 damage buff", "+10 health buff", "+10 shield buff"]
         self.buff = random.choice(self.buffs)
+
+        # FIXME: while self.opened_by is None, it can be used as a boolean, replacing self.opened
+        #   -Ibrahim
         self.opened = False
         self.opened_by = None
 

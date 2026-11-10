@@ -11,6 +11,8 @@ class EscapeSystem:
         #how many doors are needed to escape the dungeon.
         self.doors_needed = doors_needed
 
+    # FIXME: this method is redundant and doesn't even need the EscapeSystem class, just import score.py
+    #   -Ibrahim
     def give_score(self, player, amount):
         player.score += amount
 

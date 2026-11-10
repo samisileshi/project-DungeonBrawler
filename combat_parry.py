@@ -5,6 +5,8 @@ from combat_entities import Combatant
 
 class ParrySystem:
     def __init__(self, rng: random.Random | None = None):
+        # FIXME: you don't need self.rng, just call random. + whatever method
+        #   -Ibrahim
         self.rng = rng or random.Random()
 
     def resolve(self, defender: Combatant, attempt: bool = True, difficulty="adventurer", pvp=False):
@@ -14,6 +16,9 @@ class ParrySystem:
         if pvp:
             factor *= .70
         chance = min(100, round(defender.parry_chance * factor))
+
+        # FIXME: this doesn't make sense, shouldn't you check if randint() >= perfect_parry_chance return perfect, else >= chance return normal, and only else return missed?
+        #   -Ibrahim
         if self.rng.randint(1, 100) > chance:
             return "missed"
         return "perfect" if self.rng.randint(1, 100) <= defender.perfect_parry_chance else "normal"

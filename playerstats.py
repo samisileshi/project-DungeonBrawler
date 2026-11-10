@@ -48,7 +48,9 @@ class Player:
         print("Inventory: " + str(len(self.inventory)) + " items")
 
         print("Equipment:")
-        for slot, item in self.equipment.items(): 
+        for slot, item in self.equipment.items():
+            # FIXME: you can replace the spaces with escape sequence "\t"
+            #   -Ibrahim
             if item: 
                 print("  " + slot + ": " + str(item))
             else:

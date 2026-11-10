@@ -9,9 +9,13 @@ def give_score(player, amount):
     player["score"] += amount
 
     #gives 1 sigil for every 200 score.
+    # FIXME: use two slashes for int division
+    #   -Ibrahim
     player["sigils"] = player["score"] /200
 
 
+# FIXME: this method should probably be in escape_sys.py
+#   -Ibrahim
 def roll_escape_door(player):
     #checks if the player has completed enough doors.
     if player["doors_completed"] < doors_needed:
@@ -24,6 +28,8 @@ def roll_escape_door(player):
     #the escape door was not found.
     return "No escape door found."
 
+# FIXME: wrap your demo code in an if statement that checks if __name__ == "__main__"
+#   -Ibrahim
 #test
 player = {
     "score": 0,

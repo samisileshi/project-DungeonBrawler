@@ -2,6 +2,8 @@
 
 #F5: Door completion and failure
 
+# FIXME: don't import random, you're not using it for anything
+#   -Ibrahim
 import random 
 #Thsi is my door class
 class Door:
@@ -10,6 +12,9 @@ class Door:
         self.name = name
         self.door_type = door_type
         self.score_reward = score_reward
+
+        # FIXME: self.completed_by can act like a boolean when it's None, so it can replace self.completed
+        #   -Ibrahim
         self.completed = False
         self.completed_by = None
         self.failed_by = []
@@ -48,6 +53,8 @@ class Door:
 
     def can_attempt_door(self):
         #checks if the door was already completed.
+        # FIXME: you can just return "not self.completed" instead of having an if statement and two returns
+        #   -Ibrahim
         if self.completed:
             return False 
         
@@ -93,6 +100,9 @@ class Door:
             # checks its a numba
             if choice.isdigit():
                 door_index = int(choice) - 1
+
+                # FIXME: door_index should be less than len(doors), not less than or equal to
+                #   -Ibrahim
                 if 0 <= door_index and door_index <= len(doors):
                     selec_door = doors[door_index]
                     # Check whether the door can be attempted.

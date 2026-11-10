@@ -39,6 +39,9 @@ def movement(player_name, player_pos, board):
 
     else: # If an input is not WASD, tell the player to put a valid input and returns the position of the player.
         print("Movement Cancelled. Please enter a valid input.")
+
+        # FIXME: don't cancel, just error-check
+        #   -Ibrahim
         return player_pos
 
     # If the player is not within these bounds of the 4x3 grid, tell them they hit a wall and return the position of the player.
@@ -55,7 +58,10 @@ def movement(player_name, player_pos, board):
 def main():
     player_name = "Hero"
     player_pos = [0, 0] 
-    board = None         
+    board = None
+
+    # FIXME: give the user an option to exit the loop
+    #   -Ibrahim
     while True:
         print_board(player_pos)
         updated_pos = movement(player_name, player_pos, board)

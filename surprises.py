@@ -66,6 +66,8 @@ def run():
         print("No save yet, starting fresh.")
     print("Surprises so far:", len(deck.history))
     while player["hp"] > 0:
+        # FIXME: error-check the input
+        #   -Ibrahim
         print("1) Step 2) History 3) Save 4) Quit")
         choice = input("Choose: ")
         if choice == "1":

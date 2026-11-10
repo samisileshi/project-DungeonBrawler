@@ -4,6 +4,9 @@ from dataclasses import dataclass, field
 import random
 import time
 from typing import Callable
+
+# FIXME: both combat_encounters and combat_parry already import combat_entities
+#   -Ibrahim
 from combat_entities import CombatPlayer, Enemy, Boss
 from combat_encounters import EncounterFactory
 from combat_parry import ParrySystem

@@ -1,5 +1,7 @@
 def selection_and_commits(player_name, player_pos,board):
     # Get the wanted tile of the player.
+    # FIXME: instead of naming the coord parameter player_pos and assigning it to target_pos, just name it target_pos to begin with
+    #   -Ibrahim
     target_pos = (player_pos[0],player_pos[1])
 
     # If the player is is interacting with a cell that does not exist, return.
@@ -21,6 +23,8 @@ def selection_and_commits(player_name, player_pos,board):
     if choice == '1':
         if tile_data.get('door') is None: # If there is no door, return.
             print("There is no door to open.")
+            # FIXME: don't return, just error-check
+            #   -Ibrahim
             return
 
         # Gather the information about the door.
@@ -37,6 +41,8 @@ def selection_and_commits(player_name, player_pos,board):
     elif choice == '2':
         if tile_data.get('item') == None: # If there is no item, return.
             print("There is no item on this tile.")
+            # FIXME: don't return, just error-check
+            #   -Ibrahim
             return
         # Gather the item information.
         item_name = str(tile_data['item'])
@@ -48,7 +54,9 @@ def selection_and_commits(player_name, player_pos,board):
             # If the item at the tile does not match the item name, it means that the other player has taken the item.
             if tile_data.get('item') != item_name: 
                 print("Another player has taken this item.")
-                return
+                # FIXME: don't return, just error-check
+            #   -Ibrahim
+            return
             print("You have succesfully picked the item: " + item_name)
             # Removes the item from the board to prevent duplicate items.
             tile_data['item'] = None 

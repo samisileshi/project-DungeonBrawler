@@ -2,6 +2,9 @@
 
 #when given 2 dictionarries player 1 and 2 i return a dictionary of the names and
 #point, then return the round number and if the game is over yet
+
+# FIXME: round.py is redundant, just use game_state.py
+#   -Ibrahim
 def game_state(player_one, player_two):
     return {
         "player1": player_one["name"],
@@ -19,8 +22,7 @@ def update_round(game):
     game["round"] += 1
     return game
 
-
-#test 
+#test
 player_one = {
     "name": "Joe"
 }

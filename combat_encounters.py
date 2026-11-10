@@ -9,6 +9,8 @@ DIFFICULTY_MULTIPLIERS = {"rookie": .85, "adventurer": 1., "dungeon master": 1.2
 
 def load_enemy_templates(path=None):
     """File I/O: enemy stats live in combat_enemies.json, not hard-coded classes."""
+    # FIXME: you don't need to import Path, just use the built-in file reading and writing stuff
+    #   -Ibrahim
     path = Path(path) if path else Path(__file__).with_name("combat_enemies.json")
     data = json.loads(path.read_text(encoding="utf-8"))
     for category in ("normal", "elite", "boss"):
@@ -58,6 +60,9 @@ def recursive_boss_fate(players: list[str], rng: random.Random | None = None) ->
     """
     if not players:
         raise ValueError("At least one entrant is required")
+
+    # FIXME: you don't need rng, just use random. whatever method
+    #   -Ibrahim
     rng = rng or random.Random()
 
     def pick(index: int) -> list[str]:

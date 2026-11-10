@@ -1,5 +1,7 @@
 # Written by Wilson Huang
 
+# FIXME: you could probably put these methods in the player class, since it already tracks most of these
+#   -Ibrahim
 class Progression:
     def __init__(self):
         self.doors_completed = 0

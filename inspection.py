@@ -34,11 +34,17 @@ def inspect_tile(player_name, player_pos, board):
 
         else:
             print("Invalid Tile, Inspection Cancelled")
+
+            # FIXME: don't cancel, just error-check
+            #   -Ibrahim
             return
 
     # If the input was not a input provided, cancel the inspection.
     elif choice != '1':
         print("Invalid input, Inspection Cancelled")
+
+        # FIXME: don't cancel, just error-check
+        #   -Ibrahim
         return
 
     # Check if the target is within the 4x3 board, if not it is a dungeon wall.
