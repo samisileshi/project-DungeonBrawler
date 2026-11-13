@@ -8,74 +8,74 @@ from playerstats import Player
 import time
 import tkinter
 
-clearTerminal : function = lambda : os.system("cls" if os.name == "nt" else "clear")
+clear_terminal : function = lambda : os.system("cls" if os.name == "nt" else "clear")
 
-def pause(pausingPlayer : Player = Player("pausingPlayer"), otherPlayer : Player = Player("otherPlayer")) -> None :
-    print(pausingPlayer.username + " needs a break. What about you, " + otherPlayer.username + "? (Yes/No)")
+def pause(pausing_player : Player = Player("Pausing player"), other_player : Player = Player("Other player")) -> None :
+    print(pausing_player.username, "needs a break. What about you,", other_player.username + "? (Yes/No)")
     answer : str = input("> ").strip().lower()
-    clearTerminal()
+    clear_terminal()
 
     while not (answer == "yes" or answer == "no") :
         print("Error. Enter either \"Yes\" or \"No\", case insensitive.")
         answer = input("> ").strip().lower()
-        clearTerminal()
+        clear_terminal()
 
     if answer == "yes" :
-        print(otherPlayer.username + " agrees to take a break.", end = "", flush = True)
+        print(other_player.username, "agrees to take a break.", end = "", flush = True)
         time.sleep(1)
 
-        pauseMenu: Tk = tkinter.Tk()
-        pauseMenu.title("Dungeon Brawler Pause Menu")
-        pauseMenu.geometry("150x175")
-        pauseMessage: Label = tkinter.Label(pauseMenu, text = pausingPlayer.username + " has paused.")
-        pauseMessage.pack(pady = 10)
+        pause_menu: Tk = tkinter.Tk()
+        pause_menu.title("Dungeon Brawler Pause _menu")
+        pause_menu.geometry("150x175")
+        pause_message: Label = tkinter.Label(pause_menu, text = f"{pausing_player.username} has paused.")
+        pause_message.pack(pady = 10)
 
         def resume() -> None :
-            clearTerminal()
-            pauseMenu.destroy()
-            print(pausingPlayer.username + " has resumed.", end = "", flush = True)
+            clear_terminal()
+            pause_menu.destroy()
+            print(pausing_player.username, "has resumed.", end = "", flush = True)
 
-        def displayInventory() -> None :
-            clearTerminal()
+        def display_inventory() -> None :
+            clear_terminal()
             display_equipment_and_inventory(inventory, equipment)
             print("\b", end = "", flush = True)
 
-        def displayStats() -> None :
-            clearTerminal()
-            pausingPlayer.display_stats()
+        def display_stats() -> None :
+            clear_terminal()
+            pausing_player.display_stats()
             print("\b", end = "", flush = True)
 
         def settings() -> None :
-            clearTerminal()
+            clear_terminal()
             print("WIP", end = "", flush = True)
 
-        def quitGame() -> None :
-            clearTerminal()
+        def quit_game() -> None :
+            clear_terminal()
             quit()
 
-        resumeButton: Button = tkinter.Button(pauseMenu, text = "Resume", command = resume)
-        resumeButton.pack()
-        inventoryButton: Button = tkinter.Button(pauseMenu, text = "Inventory", command = displayInventory)
-        inventoryButton.pack()
-        statsButton: Button = tkinter.Button(pauseMenu, text = "Stats", command = displayStats)
-        statsButton.pack()
-        optionsButton: Button = tkinter.Button(pauseMenu, text = "Options", command = settings)
-        optionsButton.pack()
-        quitButton: Button = tkinter.Button(pauseMenu, text = "Quit", command = quitGame)
-        quitButton.pack()
+        resume_button : Button = tkinter.Button(pause_menu, text = "Resume", command = resume)
+        resume_button.pack()
+        inventory_button : Button = tkinter.Button(pause_menu, text = "Inventory", command = display_inventory)
+        inventory_button.pack()
+        stats_button : Button = tkinter.Button(pause_menu, text = "Stats", command = display_stats)
+        stats_button.pack()
+        options_button : Button = tkinter.Button(pause_menu, text = "Options", command = settings)
+        options_button.pack()
+        quit_button : Button = tkinter.Button(pause_menu, text = "Quit", command = quit_game)
+        quit_button.pack()
 
-        pauseMenu.deiconify()
-        pauseMenu.resizable(True, True)
-        pauseMenu.lift()
-        pauseMenu.attributes("-topmost", True)
-        pauseMenu.attributes("-topmost", False)
-        pauseMenu.focus_force()
-        pauseMenu.mainloop()
+        pause_menu.deiconify()
+        pause_menu.resizable(True, True)
+        pause_menu.lift()
+        pause_menu.attributes("-topmost", True)
+        pause_menu.attributes("-topmost", False)
+        pause_menu.focus_force()
+        pause_menu.mainloop()
     else :
-        print(otherPlayer.username + " doesn't want to take a break.", end = "", flush = True)
+        print(other_player.username, "doesn't want to take a break.", end = "", flush = True)
 
 if __name__ == "__main__" :
-    clearTerminal()
+    clear_terminal()
     print("PAUSE DEMO:\n")
 
     inventory : list[dict] = [{"name"   : "Steel Plate",
@@ -87,11 +87,11 @@ if __name__ == "__main__" :
                         "Armor"  : None}
 
     print("Pausing Player:")
-    pausingPlayer : Player = Player(input("> ").strip())
-    clearTerminal()
+    pausing_player : Player = Player(input("> ").strip())
+    clear_terminal()
 
     print("Other Player:")
-    otherPlayer : Player = Player(input("> ").strip())
-    clearTerminal()
+    other_player : Player = Player(input("> ").strip())
+    clear_terminal()
 
-    pause(pausingPlayer, otherPlayer)
+    pause(pausing_player, other_player)

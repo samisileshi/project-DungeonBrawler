@@ -5,46 +5,46 @@
 import os
 import time
 
-clearTerminal : function = lambda : os.system("cls" if os.name == "nt" else "clear")
+clear_terminal : function = lambda : os.system("cls" if os.name == "nt" else "clear")
 
 class Timer :
-    def __init__(self, duration: float = 5.0) -> None :
+    def __init__ (self, duration: float = 5.0) -> None :
         self.start = time.time() / 60.0
         self.duration = duration
 
-    def isFinished(self) -> bool :
+    def is_finished(self) -> bool :
         if time.time() / 60.0 - self.start > self.duration :
             return True
         return False
 
-    def isFinishedStr(self) -> str :
-        return "Timer is" + (" " if self.isFinished() else " not ") + "finished."
+    def is_finished_str(self) -> str :
+        return "Timer is" + (" " if self.is_finished() else " not ") + "finished."
 
 if __name__ == "__main__" :
-    clearTerminal()
+    clear_terminal()
     print("TIMERS DEMO:\n")
 
-    dungeonTimer: Timer = Timer (1.0 / 6.0)
+    dungeon_timer : Timer = Timer(1.0 / 6.0)
     print("Dungeon Timer: 10 s")
     time.sleep(5)
-    print(dungeonTimer.isFinishedStr())
+    print(dungeon_timer.is_finished_str())
     time.sleep(5)
-    print(dungeonTimer.isFinishedStr(), end = "", flush = True)
+    print(dungeon_timer.is_finished_str(), end = "", flush = True)
     time.sleep(1)
 
-    clearTerminal()
-    roundTimer: Timer = Timer (1.0 / 6.0)
+    clear_terminal()
+    round_timer : Timer = Timer(1.0 / 6.0)
     print("Round Timer: 10 s")
     time.sleep(5)
-    print(roundTimer.isFinishedStr())
+    print(round_timer.is_finished_str())
     time.sleep(5)
-    print(roundTimer.isFinishedStr(), end = "", flush = True)
+    print(round_timer.is_finished_str(), end = "", flush = True)
     time.sleep(1)
 
-    clearTerminal()
-    combatTimer: Timer = Timer (1.0 / 6.0)
+    clear_terminal()
+    combat_timer : Timer = Timer(1.0 / 6.0)
     print("Combat Timer: 10 s")
     time.sleep(5)
-    print(combatTimer.isFinishedStr())
+    print(combat_timer.is_finished_str())
     time.sleep(5)
-    print(combatTimer.isFinishedStr(), end = "", flush = True)
+    print(combat_timer.is_finished_str(), end = "", flush = True)

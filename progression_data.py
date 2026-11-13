@@ -2,8 +2,8 @@
 
 # FIXME: you could probably put these methods in the player class, since it already tracks most of these
 #   -Ibrahim
-class Progression:
-    def __init__(self):
+class Progression :
+    def __init__(self) :
         self.doors_completed = 0
         self.enemies_defeated = 0
         self.bosses_defeated = 0
@@ -11,26 +11,28 @@ class Progression:
         self.revivals = 1
         self.revived = False
 
-    def complete_door(self):
+    def complete_door(self) :
         self.doors_completed += 1
 
-    def defeat_enemy(self):
+    def defeat_enemy(self) :
         self.enemies_defeated += 1
 
-    def defeat_boss(self):
+    def defeat_boss(self) :
         self.bosses_defeated += 1
 
-    def win_minigame(self):
+    def win_minigame(self) :
         self.minigames_won += 1
 
-    def check_revival(self, hp):
+    def check_revival (self, hp) :
         self.revived = False
-        if hp == 0 and self.revivals > 0:
+
+        if hp == 0 and self.revivals > 0 :
             self.revivals -= 1 
             self.revived = True
+
         return self.revived
 
-if __name__ == "__main__":
+if __name__ == "__main__" :
     progress = Progression()
     print("Enemies Defeated before:", progress.enemies_defeated) 
 
@@ -40,4 +42,4 @@ if __name__ == "__main__":
     print("Revived?", progress.check_revival(0))  
     print("Revivals Remaining:", progress.revivals)  
 
-    print("Revived?", progress.check_revival(0))  
+    print("Revived?", progress.check_revival(0), end = "", flush = True)
