@@ -2,86 +2,87 @@
 # Mon, Sep 28, 2026
 # 1.0
 
+import argparse
 import os
 import random
 
 clear_terminal : function = lambda : os.system("cls" if os.name == "nt" else "clear")
 
-legend : dict = {"door"            : 'D',
-                 "maybe door"      : '~',
+legend : dict[str, char] = {"door"            : "D",
+                            "maybe door"      : "~",
 
-                 "horizontal wall" : '-',
-                 "vertical wall"   : '|',
-                 "wall junction"   : '+',
+                            "horizontal wall" : "-",
+                            "vertical wall"   : "|",
+                            "wall junction"   : "+",
 
-                 "basic enemy"     : 'e',
-                 "elite enemy"     : 'E',
-                 "boss"            : 'B',
+                            "basic enemy"     : "e",
+                            "elite enemy"     : "E",
+                            "boss"            : "B",
 
-                 "empty"           : ' ',
-                 "maybe entity"    : '#',
+                            "empty"           : " ",
+                            "maybe entity"    : "#",
 
-                 "player 1"        : '1',
-                 "player 2"        : '2',
+                            "player 1"        : "1",
+                            "player 2"        : "2",
 
-                 "chest"           : 'C',
-                 "looted chest"    : 'c',
-                 "pvp chest"       : 'V',
-                 "shop"            : '$',
-                 "shrine"          : '*',
-                 "trap"            : '!',
-                 "mystery"         : '?',
-                 "arena"           : 'A',
-                 "safe zone"       : 'S',
+                            "chest"           : "C",
+                            "looted chest"    : "c",
+                            "pvp chest"       : "V",
+                            "shop"            : "$",
+                            "shrine"          : "*",
+                            "trap"            : "!",
+                            "mystery"         : "?",
+                            "arena"           : "A",
+                            "safe zone"       : "S",
 
-                 "null cell"       : '0'}
+                            "null cell"       : "0"}
 
-diff_mods : dict = {"rookie"         : {"min doors"      : 4,
-                                       "extra door roll" : 0.75,
+diff_mods : dict[dict[string, float]] = {"rookie"         : {"min doors"      : 4,
+                                                             "extra door roll" : 0.75,
 
-                                       "shop roll"       : 0.25,
-                                       "pvp chest roll"  : 0.43,
-                                       "shrine roll"     : 0.58,
-                                       "trap roll"       : 0.70,
-                                       "mystery roll"    : 0.75,
-                                       "safe roll"       : 0.87,
-                                       "pvp roll"        : 0.90},
+                                                             "shop roll"       : 0.25,
+                                                             "pvp chest roll"  : 0.43,
+                                                             "shrine roll"     : 0.58,
+                                                             "trap roll"       : 0.70,
+                                                             "mystery roll"    : 0.75,
+                                                             "safe roll"       : 0.87,
+                                                             "pvp roll"        : 0.90},
 
-                   "adventurer"     : {"min doors"       : 5,
-                                       "extra door roll" : 0.70,
+                                         "adventurer"     : {"min doors"       : 5,
+                                                             "extra door roll" : 0.70,
 
-                                       "shop roll"       : 0.30,
-                                       "pvp chest roll"  : 0.42,
-                                       "shrine roll"     : 0.54,
-                                       "trap roll"       : 0.63,
-                                       "mystery roll"    : 0.75,
-                                       "safe roll"       : 0.90,
-                                       "pvp roll"        : 0.915},
+                                                             "shop roll"       : 0.30,
+                                                             "pvp chest roll"  : 0.42,
+                                                             "shrine roll"     : 0.54,
+                                                             "trap roll"       : 0.63,
+                                                             "mystery roll"    : 0.75,
+                                                             "safe roll"       : 0.90,
+                                                             "pvp roll"        : 0.915},
 
-                   "dungeon master" : {"min doors"       : 6,
-                                       "extra door roll" : 0.65,
+                                         "dungeon master" : {"min doors"       : 6,
+                                                             "extra door roll" : 0.65,
 
-                                       "shop roll"       : 0.35,
-                                       "pvp chest roll"  : 0.43,
-                                       "shrine roll"     : 0.53,
-                                       "trap roll"       : 0.59,
-                                       "mystery roll"    : 0.77,
-                                       "safe roll"       : 0.93,
-                                       "pvp roll"        : 0.935}}
+                                                             "shop roll"       : 0.35,
+                                                             "pvp chest roll"  : 0.43,
+                                                             "shrine roll"     : 0.53,
+                                                             "trap roll"       : 0.59,
+                                                             "mystery roll"    : 0.77,
+                                                             "safe roll"       : 0.93,
+                                                             "pvp roll"        : 0.935}}
 
 dungeon_map : list[str] = ["+-------------------------------+",
-                          "|       |       |       |       |",
-                          "|   #   ~   #   ~   #   ~   #   |",
-                          "|       |       |       |       |",
-                          "|---~---+---~---+---~---+---~---|",
-                          "|       |       |       |       |",
-                          "|   #   ~   1   ~   2   ~   #   |",
-                          "|       |       |       |       |",
-                          "|---~---+---~---+---~---+---~---|",
-                          "|       |       |       |       |",
-                          "|   #   ~   #   ~   #   ~   #   |",
-                          "|       |       |       |       |",
-                          "+-------------------------------+"]
+                           "|       |       |       |       |",
+                           "|   #   ~   #   ~   #   ~   #   |",
+                           "|       |       |       |       |",
+                           "|---~---+---~---+---~---+---~---|",
+                           "|       |       |       |       |",
+                           "|   #   ~   1   ~   2   ~   #   |",
+                           "|       |       |       |       |",
+                           "|---~---+---~---+---~---+---~---|",
+                           "|       |       |       |       |",
+                           "|   #   ~   #   ~   #   ~   #   |",
+                           "|       |       |       |       |",
+                           "+-------------------------------+"]
 
 maybe_doors : list[list[int]] = [[2, 8], [2, 16], [2, 24],
                                 [4, 4], [4, 12], [4, 20], [4, 28],
@@ -112,13 +113,13 @@ def get_cell(coords : list[int] = [0, 0]) -> char :
 def set_cell(coords : list[int] = [0, 0], new_cell : char = legend.get("null cell")) -> None :
     if len(coords) != 2 :
         coords = [0, 0]
-    dungeon_map[coords[0]] = dungeon_map[coords[0]][0 : coords[1]] + new_cell + dungeon_map[coords[0]][coords[1] + 1 : len(dungeon_map[coords[0]])]
+    dungeon_map[coords[0]] = dungeon_map[coords[0]][0:coords[1]] + new_cell + dungeon_map[coords[0]][coords[1] + 1:len(dungeon_map[coords[0]])]
 
 def generate_map() -> None :
     all_rooms_connected : bool = False
     extra_door_roll : float = diff_mods.get(diff).get("extra door roll")
     shop_roll : float = diff_mods.get(diff).get("shop roll")
-    pvp_chest_roll : float = diff_mods.get(diff).get("pvp_chest roll")
+    pvp_chest_roll : float = diff_mods.get(diff).get("pvp chest roll")
     shrine_roll : float = diff_mods.get(diff).get("shrine roll")
     trap_roll : float = diff_mods.get(diff).get("trap roll")
     mystery_roll : float = diff_mods.get(diff).get("mystery roll")
@@ -144,9 +145,9 @@ def generate_map() -> None :
                 if (1.00 - random.random()) >= extra_door_roll :
                     set_cell(door, legend.get("door"))
                 elif door[0] % 4 == 0 :
-                    set_cell(door, legend.get("wall_horizontal"))
+                    set_cell(door, legend.get("horizontal wall"))
                 else :
-                    set_cell(door, legend.get("wall_vertical"))
+                    set_cell(door, legend.get("vertical wall"))
 
         room_queue : list[int] = [0]
         already_visited : list[int] = []
@@ -170,7 +171,7 @@ def generate_map() -> None :
         if entity_roll >= pvp_roll :
             set_cell(entity, legend.get("arena"))
         elif entity_roll >= safe_roll :
-            set_cell(entity, legend.get("safe_zone"))
+            set_cell(entity, legend.get("safe zone"))
         elif entity_roll >= mystery_roll :
             set_cell(entity, legend.get("mystery"))
         elif entity_roll >= trap_roll :
@@ -178,7 +179,7 @@ def generate_map() -> None :
         elif entity_roll >= shrine_roll :
             set_cell(entity, legend.get("shrine"))
         elif entity_roll >= pvp_chest_roll :
-            set_cell(entity, legend.get("pvp_chest"))
+            set_cell(entity, legend.get("pvp chest"))
         elif entity_roll >= shop_roll :
             set_cell(entity, legend.get("shop"))
         else :
@@ -197,15 +198,20 @@ def print_roomDemo() -> None :
 if __name__ == "__main__" :
     clear_terminal()
     print("MAP GEN DEMO:\n")
-    diff : str = None
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--diff", dest = "diff", type = str, default = None, help = "The difficulty decides which set of modifiers are applied to generation.")
+    args = parser.parse_args()
+    diff : str = args.diff
 
     while diff not in diff_mods :
-        print("Enter a difficulty: \"_rookie\", \"Adventurer\", or \"Dungeon Master\".")
+        print("Enter a difficulty: \"Rookie\", \"Adventurer\", or \"Dungeon Master\".")
         diff = input("> ").strip().lower()
         clear_terminal()
 
         if diff not in diff_mods :
             print("Error. ", end = "", flush = True)
 
+    clear_terminal()
     generate_map()
     display_map()

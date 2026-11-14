@@ -78,9 +78,9 @@ if __name__ == "__main__" :
     clear_terminal()
     print("PAUSE DEMO:\n")
 
-    inventory : list[dict] = [{"name"   : "Steel Plate",
-                               "type"   : "armor",
-                               "rarity" : "Rare"}]
+    inventory : list[dict[str, str]] = [{"name"   : "Steel Plate",
+                                         "type"   : "armor",
+                                         "rarity" : "Rare"}]
     equipment : dict = {"Weapon" : {"name"   : "Iron Sword",
                                     "type"   : "weapon",
                                     "rarity" : "Common"},
