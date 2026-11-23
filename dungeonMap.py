@@ -186,6 +186,7 @@ def generate_map() -> None :
             set_cell(entity, legend.get("empty"))
 
 def display_map() -> None :
+    clear_terminal()
     print("\n".join(dungeon_map), end = "", flush = True)
 
 def print_roomDemo() -> None :
@@ -212,6 +213,5 @@ if __name__ == "__main__" :
         if diff not in diff_mods :
             print("Error. ", end = "", flush = True)
 
-    clear_terminal()
     generate_map()
     display_map()

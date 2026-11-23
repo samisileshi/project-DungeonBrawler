@@ -60,6 +60,8 @@ class Door :
         
         return True 
 
+    # FIXME: add the decorator `@staticmethod` or `@classmethod` just above the function so that it doesn't belong to an instance
+    #   -Ibrahim
     def count_comp_doors (doors : list["Door"]) :
         # base case is when the list is empty
         if not doors :
@@ -73,6 +75,8 @@ class Door :
         # recursive case
         return current + Door.count_comp_doors(doors[1:])
 
+    # FIXME: add the decorator `@staticmethod` or `@classmethod` just above the function so that it doesn't belong to an instance
+    #   -Ibrahim
     def door_menu (player, doors : list[Door]) :
         # shows the menu until the player exits.
         while True :
@@ -109,7 +113,7 @@ class Door :
                     # Check whether the door can be attempted.
                     # FIXME: can_attempt_door only takes the self parameter, this causes an error
                     #   -Ibrahim
-                    if selected_door.can_attempt_door(player) :
+                    if selected_door.can_attempt_door() :
                         print("\nSelected:", selected_door.name + "\n")
                     else :
                         print("\nDoor is already completed.\n")

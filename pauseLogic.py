@@ -2,11 +2,12 @@
 # Mon, Sep 28, 2026
 # 1.0
 
-from inventory import display_equipment_and_inventory
 import os
-from playerstats import Player
 import time
 import tkinter
+
+from inventory import *
+from playerstats import *
 
 clear_terminal : function = lambda : os.system("cls" if os.name == "nt" else "clear")
 
