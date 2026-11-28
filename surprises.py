@@ -161,10 +161,8 @@ def run():
     print("Surprises so far:", len(deck.history))
     # ===== Interface (TUI): text menu loop =====
     while player["hp"] > 0:
-        # FIXME: error-check the input
-        #   -Ibrahim
         print("1) Step 2) History 3) Save 4) Quit")
-        choice = input("Choose: ")
+        choice = input("Choose: ").strip()
         if choice == "1":
             pick = deck.pick()
             deck.apply_surprises(player, pick)
@@ -175,6 +173,8 @@ def run():
             deck.save(args.save_file)
         elif choice == "4":
             break
+        else:
+            print("Invalid choice, please type 1, 2, 3 or 4.")
 
     if player["hp"] <= 0:
         print("You died!")
