@@ -99,7 +99,11 @@ def run_server(host, port, difficulty):
 def send(sock_file, msg):
     sock_file.write((json.dumps(msg) + "\n").encode())
     sock_file.flush()
-    return json.loads(sock_file.readline())
+    line = sock_file.readline()
+    if not line:
+        # An empty read means the server closed the connection.
+        raise ConnectionError("server closed the connection")
+    return json.loads(line)
 
 
 def run_client(host, port, name):
@@ -109,24 +113,32 @@ def run_client(host, port, name):
         print(f"Could not connect to {host}:{port}. Is the server running?")
         return
     with sock, sock.makefile("rwb") as f:
-        reply = send(f, {"type": "join", "name": name})
-        print(f"Joined as {name}. HP {reply['hp']}/{reply['max_hp']}")
-        while True:
-            choice = input("1) Step  2) Quit\nChoose: ")
-            if choice == "1":
-                reply = send(f, {"type": "surprise_step"})
-                if reply["type"] == "error":
-                    print("Error:", reply["message"])
-                    break
-                print(f"{reply['event']}! HP {reply['hp']}/{reply['max_hp']}"
-                      f" ({reply['upcoming']} planned events left)")
-                if reply["hp"] <= 0:
-                    print("You died!")
-                    break
-            elif choice == "2":
+        try:
+            play(f, name)
+        except ConnectionError:
+            # Server crashed, was stopped, or the network dropped.
+            print("Lost connection to the server. Game over.")
+
+
+def play(f, name):
+    reply = send(f, {"type": "join", "name": name})
+    print(f"Joined as {name}. HP {reply['hp']}/{reply['max_hp']}")
+    while True:
+        choice = input("1) Step  2) Quit\nChoose: ")
+        if choice == "1":
+            reply = send(f, {"type": "surprise_step"})
+            if reply["type"] == "error":
+                print("Error:", reply["message"])
                 break
-            else:
-                print("Please type 1 or 2.")
+            print(f"{reply['event']}! HP {reply['hp']}/{reply['max_hp']}"
+                  f" ({reply['upcoming']} planned events left)")
+            if reply["hp"] <= 0:
+                print("You died!")
+                break
+        elif choice == "2":
+            break
+        else:
+            print("Please type 1 or 2.")
 
 
 def main():
