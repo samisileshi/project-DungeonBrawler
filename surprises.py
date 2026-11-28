@@ -4,6 +4,13 @@ import json
 import argparse
 surprises = ["mine", "medkit", "fog", "chain mine"]
 
+# Average HP each event takes away (medkit heals, so it is negative).
+# chain mine: 5 + 5*0.5 + 5*0.25 = 8.75, rounded to 9.
+EVENT_DAMAGE = {"mine": 10, "chain mine": 9, "fog": 0, "medkit": -10}
+
+# Total damage allowed in one planned batch of events, per difficulty.
+DIFFICULTY_BUDGET = {"easy": 15, "normal": 35, "hard": 60}
+
 
 # ===== Data structure (M3): Queue of upcoming surprise events =====
 # A linked-list queue: enqueue adds at the back, dequeue removes from the
@@ -69,6 +76,33 @@ class SurpriseDeck:
         if not self.upcoming.is_empty():
             return self.upcoming.dequeue()
         return random.choice(self.events)
+
+    # ===== Algorithm strategy (M3): greedy difficulty balancer =====
+    # Plans `count` events so their total damage gets as close as possible
+    # to the difficulty's damage budget without going over it.
+    # Greedy choice: for each slot, take the MOST damaging event that still
+    # fits the remaining budget (each event type at most count // 2 times,
+    # so the batch stays varied). Then shuffle so the order is a surprise.
+    # Big-O: sorting the k event types is O(k log k); each of the n slots
+    # scans at most k types, so O(n * k). k = 4 here, so it is O(n).
+    def balance_events(self, difficulty="normal", count=6):
+        budget = DIFFICULTY_BUDGET[difficulty]
+        limit = max(1, count // 2)
+        # most damaging first (this ordering is what makes it greedy)
+        ranked = sorted(EVENT_DAMAGE, key=EVENT_DAMAGE.get, reverse=True)
+        used = {event: 0 for event in ranked}
+        plan = []
+        for _ in range(count):
+            for event in ranked:
+                if EVENT_DAMAGE[event] <= budget and used[event] < limit:
+                    plan.append(event)
+                    used[event] += 1
+                    budget -= EVENT_DAMAGE[event]
+                    break
+        random.shuffle(plan)
+        for event in plan:
+            self.upcoming.enqueue(event)
+        return plan
 
     # ===== File I/O: save/load history to a JSON file =====
     def to_dict(self):
