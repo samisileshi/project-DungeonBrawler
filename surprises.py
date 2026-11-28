@@ -5,6 +5,7 @@ import argparse
 surprises = ["mine", "medkit", "fog", "chain mine"]
 
 
+# ===== OOP: SurpriseDeck class (state = events + history) =====
 class SurpriseDeck:
     def __init__(self):
         self.events = surprises
@@ -13,6 +14,7 @@ class SurpriseDeck:
     def pick(self):
         return random.choice(self.events)
 
+    # ===== File I/O: save/load history to a JSON file =====
     def to_dict(self):
         return {"history": self.history}
 
@@ -25,13 +27,14 @@ class SurpriseDeck:
             data = json.load(f)
         self.history = data["history"]
 
+    # ===== Recursion: chain mine calls itself until depth hits 0 =====
     def chain_mine(self, player, depth):
-        if depth == 0:
+        if depth == 0:  # base case: stop
             return
         player["hp"] = player["hp"] - 5
         print("Chain mine! HP -5")
         if random.random() < 0.5:
-            self.chain_mine(player, depth - 1)
+            self.chain_mine(player, depth - 1)  # recursive call
 
     def apply_surprises(self, player, pick):
         self.history.append(pick)
@@ -53,8 +56,9 @@ class SurpriseDeck:
         return player
 
 
-# Demo
+# Demo (main.py can call run())
 def run():
+    # ===== Command-line args: --save-file picks the save file =====
     parser = argparse.ArgumentParser()
     parser.add_argument("--save-file", default="surprises_save.json")
     args = parser.parse_args()
@@ -65,6 +69,7 @@ def run():
     except FileNotFoundError:
         print("No save yet, starting fresh.")
     print("Surprises so far:", len(deck.history))
+    # ===== Interface (TUI): text menu loop =====
     while player["hp"] > 0:
         # FIXME: error-check the input
         #   -Ibrahim
