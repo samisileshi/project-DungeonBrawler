@@ -80,8 +80,10 @@ Samuel S - Look at combat.py for the combat function. And main.py at main() for 
 
 | Student | Data structure | Algorithm strategy | Sockets | Concurrency |
 |---------|:--------------:|:------------------:|:-------:|:-----------:|
+| Obaidullah Ahmad | 3a8285e | 52eb8fb | fd62246 | fd62246 |
 | <name>  |                |                    |         |             |
 | <name>  |                |                    |         |             |
 | <name>  |                |                    |         |             |
 | <name>  |                |                    |         |             |
-| <name>  |                |                    |         |             |
+
+Obaidullah Ahmad - `EventQueue` and `SurpriseDeck.balance_events()` in surprises.py; `handle_message()`, `SurpriseHandler` and `SurpriseGame` (lock) in surprises_net.py.

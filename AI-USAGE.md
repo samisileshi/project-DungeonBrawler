@@ -91,7 +91,7 @@ changed and how you tested it.
 
 | Student | AI tool(s) used | Used it for | Generated code? Where, and how you verified it |
 |---------|-----------------|-------------|-----------------------------------------------|
-| <name>  |                 |             |                                               |
+| Obaidullah Ahmad | Claude (Claude Code) | M3 for my F15 slice: queue, greedy event balancer, threaded socket server/client | Yes: Claude generated `EventQueue`, `balance_events` (surprises.py) and surprises_net.py. Verified by running the server with two clients at once (shared queue counts stayed consistent, bad JSON and unknown types got error replies) and by checking each difficulty stays under its damage budget. |
 | <name>  |                 |             |                                               |
 | <name>  |                 |             |                                               |
 | <name>  |                 |             |                                               |

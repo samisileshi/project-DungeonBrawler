@@ -34,6 +34,26 @@ python main.py
 (server, client, engine, storage), and a short **Big-O note** for the algorithm your team
 implemented - what it does, its complexity, and why that is fast enough here.>
 
+### F15 Special Dungeon Events (Obaidullah Ahmad)
+
+- **Data structure - queue.** `EventQueue` in `surprises.py` is a linked-list queue of the
+  surprise events planned for the dungeon. Events are drawn first in, first out, so players
+  get them in the order they were planned. `enqueue` and `dequeue` are both O(1).
+- **Algorithm - greedy difficulty balancer.** `SurpriseDeck.balance_events(difficulty, n)`
+  plans `n` events whose total damage gets close to the difficulty's damage budget
+  (easy 15, normal 35, hard 60) without going over it. For each slot it greedily takes the
+  most damaging event that still fits, with each type used at most `n // 2` times, then
+  shuffles the plan into the queue.
+  **Big-O:** sorting the `k` event types is O(k log k), and each of the `n` slots scans at
+  most `k` types, so O(n * k). With only k = 4 event types, that is O(n). A batch is 6 events,
+  so this is instant.
+- **Sockets + concurrency.** `surprises_net.py` runs a `ThreadingTCPServer` (one thread per
+  client). Clients send JSON lines (`join`, `surprise_step`), and the server replies with
+  `surprise_result` or `error`. All players share one deck, and a `threading.Lock` makes
+  sure two threads never dequeue at the same time.
+  Run: `python surprises_net.py server --difficulty hard`, then in two other terminals
+  `python surprises_net.py client --name A` and `--name B`.
+
 ## Required Files
 
 | File | What it is |
