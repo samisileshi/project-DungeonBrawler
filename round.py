@@ -1,41 +1,33 @@
-#Written by Youssouf Tive Madi
+# Written by Youssouf Tive Madi
 
-#when given 2 dictionarries player 1 and 2 i return a dictionary of the names and
-#point, then return the round number and if the game is over yet
-def game_state(player_one, player_two):
-    return {
-        "player1": player_one["name"],
-        "player2": player_two["name"],
-        "score": {
-            player_one["name"]: 0,
-            player_two["name"]: 0,
-        },
-        "round": 1,
-        "game_over": False,
-    }
+# When given 2 dictionaries, player 1 and 2, I return a dictionary of the names and
+#   points, then return the round number and whether the game is over yet
 
-#Updates the current round
-def update_round(game):
+# FIXME: round.py is redundant, just use game_state.py
+#   -Ibrahim
+def game_state (player_one, player_two) :
+    return {"player1"  : player_one["name"],
+            "player2"  : player_two["name"],
+            "score"    : {player_one["name"] : 0,
+                          player_two["name"] : 0},
+            "round"    : 1,
+            "game_over": False}
+
+# Updates the current round
+def update_round (game) :
     game["round"] += 1
+
     return game
 
+# Test
+player_one = {"name" : "Joe"}
 
-#test 
-player_one = {
-    "name": "Joe"
-}
-
-player_two = {
-    "name": "Yapp"
-}
+player_two = {"name" : "Yapp"}
 
 game = game_state(player_one, player_two)
 print(game)
 
-#moves to the next round
+# Moves to the next round
 update_round(game)
-
-
-print("After update:")
-print(game)
-
+print("\nAfter update:")
+print(game, end = "", flush = True)
