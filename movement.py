@@ -1,29 +1,51 @@
 #Written by Wilson Huang
-def print_board (player_pos, width = 4, height = 3) :
-    for y in range(height) :
-        row = ""
+from collections import deque
 
-        for x in range(width) :
-            if [x, y] == player_pos :
-                row += "[ P ]"
-            else :
-                row += "[ . ]"
+move_log_size = 5 
 
-        if y > 0 :
-            print()
-        print(row, end = "", flush = True)
+def log_move(move_log, message): # Create a function for keep track of moves,
+    move_log.append(message) # Adds the move to the queue
 
-def movement(player_name, player_pos, board):
+    if len(move_log) > move_log_size: # Check if the amount of moves currently stored is less than the limit
+        move_log.popleft() # If the it exceeds the limit pop the first move.
+
+def print_move_log(move_log): # Function to print the move logs
+    print("\nRecent moves:")
+
+    if not move_log:
+        print("No moves have been made yet.")
+        return
+
+    for entry in move_log:
+        print("-", entry)
+
+
+def movement(player_name, player_pos, board, move_log = None):
 
     # Display movement inputs.
     print("[W] Up")
     print("[A] Left")
     print("[S] Down")
     print("[D] Right")
+    print("[L] Recent Moves")
+    print("[Q] Quit")
 
     print("\nPlease choose a direction to move.")
     # Ask for the movement input from player.
     choice = input("> ").lower()
+    
+    while choice not in ["w","a","s","d","l","q"]:
+        print("\nInvalid input. Please enter W, A, S, D, L or Q.")
+        choice = input("> ").lower()
+
+    if choice == 'l':
+        print_move_log(move_log)
+        return player_pos
+
+    if choice == "q" :
+        print("\nEnding your Turn.")
+
+        return None
 
     new_x = player_pos[0]
     new_y = player_pos[1]
@@ -36,12 +58,6 @@ def movement(player_name, player_pos, board):
         new_y = new_y + 1 # Character moves 1 tile downwards.
     elif choice == "d" :
         new_x = new_x + 1 # Character moves 1 tile to the right.
-    else : # If an input is not WASD, tell the player to put a valid input and returns the position of the player.
-        print("\nMovement Cancelled. Please enter a valid input.", end = "", flush = True)
-
-        # FIXME: don't cancel, just error-check
-        #   -Ibrahim
-        return player_pos
 
     # If the player is not within these bounds of the 4x3 grid, tell them they hit a wall and return the position of the player.
     if new_x < 0 or new_x > 3 or new_y < 0 or new_y > 2 :
@@ -53,21 +69,5 @@ def movement(player_name, player_pos, board):
     player_pos[0] = new_x
     player_pos[1] = new_y
     print("\n" + player_name, "moved to cell (" + str(new_x) + ", " + str(new_y) + ")!", end = "", flush = True)
-
+    log_move(move_log, player_name + " moved to cell (" + str(new_x) + ", " + str(new_y) + ")")
     return player_pos
-
-def main() :
-    player_name = "Hero"
-    player_pos = [0, 0] 
-    board = None
-
-    # FIXME: give the user an option to exit the loop
-    #   -Ibrahim
-    while True :
-        print_board(player_pos)
-        print("\n")
-        updated_pos = movement(player_name, player_pos, board)
-        print("\n")
-
-if __name__ == "__main__" :
-    main()
