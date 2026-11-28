@@ -5,13 +5,69 @@ import argparse
 surprises = ["mine", "medkit", "fog", "chain mine"]
 
 
+# ===== Data structure (M3): Queue of upcoming surprise events =====
+# A linked-list queue: enqueue adds at the back, dequeue removes from the
+# front, both O(1). Events come out in the same order they were planned
+# (first in, first out), so every player sees the planned sequence.
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+
+class EventQueue:
+    def __init__(self):
+        self.front = None
+        self.back = None
+        self.size = 0
+
+    def enqueue(self, value):
+        node = Node(value)
+        if self.back is None:      # empty queue: node is both ends
+            self.front = node
+        else:
+            self.back.next = node
+        self.back = node
+        self.size += 1
+
+    def dequeue(self):
+        if self.front is None:
+            raise IndexError("dequeue from empty EventQueue")
+        node = self.front
+        self.front = node.next
+        if self.front is None:     # queue became empty
+            self.back = None
+        self.size -= 1
+        return node.value
+
+    def peek(self):
+        if self.front is None:
+            return None
+        return self.front.value
+
+    def is_empty(self):
+        return self.size == 0
+
+    def to_list(self):
+        items = []
+        node = self.front
+        while node is not None:
+            items.append(node.value)
+            node = node.next
+        return items
+
+
 # ===== OOP: SurpriseDeck class (state = events + history) =====
 class SurpriseDeck:
     def __init__(self):
         self.events = surprises
         self.history = []
+        self.upcoming = EventQueue()   # planned events, drawn in order
 
     def pick(self):
+        # Draw the next planned event; fall back to random if nothing planned.
+        if not self.upcoming.is_empty():
+            return self.upcoming.dequeue()
         return random.choice(self.events)
 
     # ===== File I/O: save/load history to a JSON file =====
